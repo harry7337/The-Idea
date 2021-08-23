@@ -1,6 +1,5 @@
-import 'package:bizgram/models/user.dart';
+//import 'package:bizgram/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:huegahsample/screen/wrapper.dart';
 //import 'package:huegahsample/models/user.dart';
 
 class AuthService {
@@ -13,9 +12,9 @@ class AuthService {
 
   //auth change user screen
 
-  User getUser({User user}) {
+  User? getUser(User? user) {
     FirebaseAuth.instance.authStateChanges().listen(
-      (User user) {
+      (User? user) {
         user = null;
         if (user == null) {
           print('User is currently signed out!');
@@ -37,7 +36,7 @@ class AuthService {
 
   //sign in with email
   Future signInWithEmailAndPassword(String email, String password) async {
-    User user;
+    User? user;
     try {
       UserCredential userCredential =
           await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -54,7 +53,7 @@ class AuthService {
 
   //register with email and pass
   Future registerWithEmailAndPassword(String email, String password) async {
-    User user;
+    User? user;
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);

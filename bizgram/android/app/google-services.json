@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "403523029493",
+    "project_id": "bizgram-656b5",
+    "storage_bucket": "bizgram-656b5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:403523029493:android:a11b306a088ed3bdcb78bc",
+        "android_client_info": {
+          "package_name": "com.example.bizgram"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "403523029493-vae4naskbdfhrb0i2q062onq4c5uonuo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdkmLQ3GhF91c6m5Mio-w1EAhNs9noqBc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "403523029493-vae4naskbdfhrb0i2q062onq4c5uonuo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,7 @@
 import 'package:bizgram/screen/authenticate/signin.dart';
 import 'package:bizgram/screen/wrapper.dart';
 import 'package:flutter/material.dart';
+import './screen/home/MainScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'constants/UIconstants.dart';
@@ -17,6 +18,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'bizgram',
       home: Home(),
+      routes: {
+        MainScreen.routeName: (ctx) => MainScreen()
+      },
     );
   }
 }

@@ -1,0 +1,10 @@
+#Tue Aug 24 18:32:31 IST 2021
+path.2=classes3.dex
+path.1=classes2.dex
+path.0=classes.dex
+renamed.2=classes3.dex
+renamed.1=classes2.dex
+renamed.0=classes.dex
+base.2=C\:\\Users\\91819\\The-Idea\\bizgram\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes3.dex
+base.1=C\:\\Users\\91819\\The-Idea\\bizgram\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes2.dex
+base.0=C\:\\Users\\91819\\The-Idea\\bizgram\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex

@@ -1,4 +1,5 @@
 import 'package:bizgram/constants/UIconstants.dart';
+import 'package:bizgram/screen/home/MainScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -16,6 +17,10 @@ class _LoginScreenState extends State<LoginScreen> {
   Color primary = Color.fromRGBO(245, 245, 220, 20);
   Color secondary = Color.fromRGBO(255, 218, 185, 20);
   Color logo = Color.fromRGBO(128, 117, 90, 60);
+  bool isHidden = true;
+  bool isEmpty = true;
+  late String email;
+  late String password;
   final TextEditingController nameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -53,11 +58,18 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
 
               //username field
-              _buildTextField(nameController, Icons.account_circle, 'Username'),
+              
+               emailInputWidget(nameController, "Enter your email id", false, "Email", "email", (value){
+                 email =value;
+               }),
               SizedBox(height: UIConstants.fitToHeight(20, context)),
 
               //pass field
-              _buildTextField(passwordController, Icons.lock, 'Password'),
+              passInputWidget(passwordController, "Enter your password", true,"Password", "password",(value){
+                password = value;
+              }),
+             
+              
               SizedBox(height: UIConstants.fitToHeight(30, context)),
 
               //sign in with email
@@ -92,6 +104,31 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 textColor: Colors.black,
               ),
+              SizedBox(height: UIConstants.fitToHeight(20, context),),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  MaterialButton(
+                    elevation: 0,
+                    height: UIConstants.fitToHeight(25, context),
+                    color: Colors.blue[200],
+                    child: Text('Skip Sign In?',style: TextStyle(color: Colors.black,fontSize:14 ),),
+                    onPressed: ()=> Navigator.popAndPushNamed(context, MainScreen.routeName)
+                  ),
+                  MaterialButton(
+                    elevation: 0,
+                    
+                    height: UIConstants.fitToHeight(25, context),
+                    color: Colors.blue[200],
+                    child: Column(
+                      children: [
+                        Text("Dont Have an account?", style: TextStyle(color: Colors.black,fontSize: 14 ),),
+                        Text("sign Up?", style: TextStyle(color: Colors.black,fontSize: 14 ),),
+                      ],
+                    ),
+                    onPressed: () => Null
+                   ) ],
+              ),
               SizedBox(height: UIConstants.fitToHeight(100, context)),
               Align(
                 alignment: Alignment.bottomCenter,
@@ -118,26 +155,87 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  _buildTextField(
-      TextEditingController controller, IconData icon, String labelText) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      decoration: BoxDecoration(
-          color: secondary, border: Border.all(color: Colors.blue)),
-      child: TextField(
-        controller: controller,
-        style: TextStyle(color: Colors.black),
-        decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(horizontal: 10),
-            labelText: labelText,
-            labelStyle: TextStyle(color: Colors.black),
-            icon: Icon(
-              icon,
-              color: Colors.black,
+  
+Widget passInputWidget(
+    TextEditingController textEditingController,
+    String validation,
+    bool,
+    String label,
+    String hint,
+    save,
+  ) {
+    return TextFormField(
+      style: TextStyle(fontSize: 15.0, color: Color(0xff9FA0AD)),
+      controller: textEditingController,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: Color.fromRGBO(225, 193, 110, 20),
+        hintText: hint,
+        hintStyle: TextStyle(fontSize: 15.0, color: Colors.black),
+        labelStyle: TextStyle(fontSize: 15.0, color: Colors.black),
+        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 20.0),
+        enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Color(0xff41414A)),
+            borderRadius: BorderRadius.circular(12.0)),
+        focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Color(0xff41414A)),
+            borderRadius: BorderRadius.circular(12.0)),
+        border: OutlineInputBorder(
+            borderSide: BorderSide(color: Color(0xff41414A)),
+            borderRadius: BorderRadius.circular(12.0)),
+        suffix: InkWell(
+          onTap: togglePasswordView,
+          child: IconTheme(
+            data: new IconThemeData(color: Colors.white),
+            child: Icon(
+              isHidden ? Icons.visibility : Icons.visibility_off,
             ),
-            // prefix: Icon(icon),
-            border: InputBorder.none),
+          ),
+        ),
       ),
+      obscureText: isHidden,
+       validator: (String? value) {
+        if(value!.isEmpty) { 
+          validation : null;}
+          else return null;
+          },
+      onSaved: save,
     );
+  }
+  Widget emailInputWidget(TextEditingController textEditingController,
+      String validation, bool, String label, String hint, save) {
+    return TextFormField(
+      style: TextStyle(fontSize: 15.0, color: Color(0xff9FA0AD)),
+      controller: textEditingController,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: Color.fromRGBO(225, 193, 110, 20),
+        hintText: hint,
+        hintStyle: TextStyle(fontSize: 15.0, color: Colors.black),
+        labelStyle: TextStyle(fontSize: 15.0, color: Colors.black),
+        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 20.0),
+        enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Color(0xff41414A)),
+            borderRadius: BorderRadius.circular(12.0)),
+        focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Color(0xff41414A)),
+            borderRadius: BorderRadius.circular(12.0)),
+        border: OutlineInputBorder(
+            borderSide: BorderSide(color: Color(0xff41414A)),
+            borderRadius: BorderRadius.circular(12.0)),
+      ),
+      obscureText: bool,
+      validator: (String? value) {
+        if(value!.isEmpty) { 
+          validation : null;}
+          else return null;
+          },
+      onSaved: save,
+    );
+  }
+   void togglePasswordView() {
+    setState(() {
+      isHidden = !isHidden;
+    });
   }
 }

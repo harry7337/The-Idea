@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import './authenticate/signin.dart';
-import './home/home.dart';
+import 'home/MainScreen.dart';
 import '../services/auth.dart';
 import './shared/loading.dart';
 
@@ -19,7 +19,7 @@ class Wrapper extends StatelessWidget {
             print("Not Null");
             _auth.userPrivileges(snapshot.data as User);
 
-            return Home();
+            return MainScreen();
           } else {
             print("Null User");
             return LoginScreen();

@@ -11,7 +11,9 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(),
       body: SingleChildScrollView(
-        child: Column(),
+        child: Center(
+          child: Text('Home'),
+        ),
       ),
     );
   }

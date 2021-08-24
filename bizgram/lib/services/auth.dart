@@ -1,38 +1,38 @@
-//import 'package:bizgram/models/user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-//import 'package:huegahsample/models/user.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
-  //create user object based on firebase user
-  /*
-  User _userFromFireBaseUser(FirebaseUser user) {
-    return user != null ? User(uid: user.uid) : null;
-  }
-  */
+  final firestore = FirebaseFirestore.instance;
 
-  //auth change user screen
-
-  User? getUser(User? user) {
-    FirebaseAuth.instance.authStateChanges().listen(
-      (User? user) {
-        user = null;
-        if (user == null) {
-          print('User is currently signed out!');
-        } else {
-          print('According to auth we are signed in!');
-        }
-      },
-    );
-    //print("$user");
-    return user;
+  Stream<User?> get user {
+    return FirebaseAuth.instance.authStateChanges();
   }
 
-  /*
-  Stream<User> get user {
-    return _auth.onAuthStateChanged
-        .map((FirebaseUser user) => _userFromFireBaseUser(user));
+  //update roles firestore
+  void userPrivileges(User user) async {
+    final roles = firestore.collection("users").doc(user.uid);
+    if (!(await roles.get()).exists) {
+      roles.set({
+        'roles': {'seller': false}
+      });
+      print('Doc set');
+    }
   }
-  */
+
+  //sign in with phone credential
+  Future signInWithCredential(PhoneAuthCredential credential) async {
+    User? user;
+    try {
+      var result = await FirebaseAuth.instance.signInWithCredential(credential);
+      user = result.user;
+
+      return user;
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
 
   //sign in with email
   Future signInWithEmailAndPassword(String email, String password) async {
@@ -59,14 +59,30 @@ class AuthService {
           .createUserWithEmailAndPassword(email: email, password: password);
       user = userCredential.user;
       return user;
-
-      //FirebaseUser user = result.user;
-      //return _userFromFireBaseUser(user);
     } catch (e) {
       print(e.toString());
       return null;
-      //return null;
     }
+  }
+
+  //sign in with google
+  Future<User?> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser!.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+    final User? user =
+        (await FirebaseAuth.instance.signInWithCredential(credential)).user;
+    // Once signed in, return the UserCredential
+    return user;
   }
 
   //sign out

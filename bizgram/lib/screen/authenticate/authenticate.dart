@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import './signin.dart';
 import 'package:bizgram/screen/authenticate/signin.dart';
-import './register.dart';
+import 'SignUp.dart';
 
 class Authenticate extends StatefulWidget {
   @override
@@ -20,12 +20,8 @@ class _AuthenticateState extends State<Authenticate> {
   Widget build(BuildContext context) {
     return Container(
       child: showSignUp
-          ? Register(
-              toggleViewParameter: toggleView,
-            )
-          : LoginScreen(
-              toggleViewParameter: toggleView,
-            ),
+          ? Register()
+                    : LoginScreen()
     );
   }
 }

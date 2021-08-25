@@ -1,4 +1,5 @@
 import 'package:bizgram/constants/UIconstants.dart';
+import 'package:bizgram/screen/authenticate/SignUp.dart';
 import 'package:bizgram/screen/home/MainScreen.dart';
 import 'package:bizgram/screen/shared/loading.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +11,10 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:bizgram/services/auth.dart';
 
 class LoginScreen extends StatefulWidget {
-  final Function toggleViewParameter;
-  LoginScreen({required this.toggleViewParameter});
+
+ 
+  static const routeName = '/signIn';
+  
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -149,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ],
                             ),
-                            onPressed: () => widget.toggleViewParameter())
+                            onPressed: () => Navigator.of(context).popAndPushNamed(Register.routeName))
                       ],
                     ),
                     SizedBox(height: UIConstants.fitToHeight(100, context)),

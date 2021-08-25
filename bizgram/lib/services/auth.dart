@@ -1,3 +1,4 @@
+import 'package:bizgram/models/buyer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -81,6 +82,9 @@ class AuthService {
     );
     final User? user =
         (await FirebaseAuth.instance.signInWithCredential(credential)).user;
+    //if (user != null)
+    // Buyer(
+    //     user.displayName, user.phoneNumber, user.email, user.displayName, "");
     // Once signed in, return the UserCredential
     return user;
   }

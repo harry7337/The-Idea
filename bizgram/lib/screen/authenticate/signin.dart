@@ -1,5 +1,6 @@
 import 'package:bizgram/constants/UIconstants.dart';
 import 'package:bizgram/screen/home/MainScreen.dart';
+import 'package:bizgram/screen/shared/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -9,6 +10,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:bizgram/services/auth.dart';
 
 class LoginScreen extends StatefulWidget {
+  final Function toggleViewParameter;
+  LoginScreen({required this.toggleViewParameter});
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -21,6 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isEmpty = true;
   late String email;
   late String password;
+  bool loading = false;
   final TextEditingController nameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -28,117 +32,136 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      backgroundColor: primary,
-      body: Container(
-        alignment: Alignment.topCenter,
-        margin: EdgeInsets.symmetric(horizontal: 30),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                'Sign in and support small businesses!',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.openSans(color: Colors.black, fontSize: 28),
-              ),
-              SizedBox(height: UIConstants.fitToHeight(20, context)),
-              Text(
-                'Enter your email and password below',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.openSans(color: Colors.black, fontSize: 14),
-              ),
-              SizedBox(
-                height: UIConstants.fitToHeight(50, context),
-              ),
-
-              //username field
-              
-               emailInputWidget(nameController, "Enter your email id", false, "Email", "email", (value){
-                 email =value;
-               }),
-              SizedBox(height: UIConstants.fitToHeight(20, context)),
-
-              //pass field
-              passInputWidget(passwordController, "Enter your password", true,"Password", "password",(value){
-                password = value;
-              }),
-             
-              
-              SizedBox(height: UIConstants.fitToHeight(30, context)),
-
-              //sign in with email
-              MaterialButton(
-                elevation: 0,
-                minWidth: double.maxFinite,
-                height: UIConstants.fitToHeight(50, context),
-                onPressed: () => AuthService().signInWithEmailAndPassword(
-                    nameController.text, passwordController.text),
-                color: logo,
-                child: Text('Login',
-                    style: TextStyle(color: Colors.black, fontSize: 16)),
-                textColor: Colors.black,
-              ),
-              SizedBox(height: UIConstants.fitToHeight(20, context)),
-
-              //sign in with google
-              MaterialButton(
-                elevation: 0,
-                minWidth: double.maxFinite,
-                height: UIConstants.fitToHeight(50, context),
-                onPressed: () => AuthService().signInWithGoogle(),
-                color: Colors.blue,
-                child: Row(
+    return loading
+        ? Loading()
+        : Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+            ),
+            backgroundColor: primary,
+            body: Container(
+              alignment: Alignment.topCenter,
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              child: SingleChildScrollView(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Icon(FontAwesomeIcons.google),
-                    SizedBox(width: 10),
-                    Text('Sign-in using Google',
-                        style: TextStyle(color: Colors.black, fontSize: 16)),
-                  ],
-                ),
-                textColor: Colors.black,
-              ),
-              SizedBox(height: UIConstants.fitToHeight(20, context),),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  MaterialButton(
-                    elevation: 0,
-                    height: UIConstants.fitToHeight(25, context),
-                    color: Colors.blue[200],
-                    child: Text('Skip Sign In?',style: TextStyle(color: Colors.black,fontSize:14 ),),
-                    onPressed: ()=> Navigator.popAndPushNamed(context, MainScreen.routeName)
-                  ),
-                  MaterialButton(
-                    elevation: 0,
-                    
-                    height: UIConstants.fitToHeight(25, context),
-                    color: Colors.blue[200],
-                    child: Column(
+                    Text(
+                      'Sign in and support small businesses!',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.openSans(
+                          color: Colors.black, fontSize: 28),
+                    ),
+                    SizedBox(height: UIConstants.fitToHeight(20, context)),
+                    Text(
+                      'Enter your email and password below',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.openSans(
+                          color: Colors.black, fontSize: 14),
+                    ),
+                    SizedBox(
+                      height: UIConstants.fitToHeight(50, context),
+                    ),
+
+                    //username field
+
+                    emailInputWidget(nameController, "Enter your email id",
+                        false, "Email", "email", (value) {
+                      email = value;
+                    }),
+                    SizedBox(height: UIConstants.fitToHeight(20, context)),
+
+                    //pass field
+                    passInputWidget(passwordController, "Enter your password",
+                        true, "Password", "password", (value) {
+                      password = value;
+                    }),
+
+                    SizedBox(height: UIConstants.fitToHeight(30, context)),
+
+                    //sign in with email
+                    MaterialButton(
+                      elevation: 0,
+                      minWidth: double.maxFinite,
+                      height: UIConstants.fitToHeight(50, context),
+                      onPressed: () => AuthService().signInWithEmailAndPassword(
+                          nameController.text, passwordController.text),
+                      color: logo,
+                      child: Text('Login',
+                          style: TextStyle(color: Colors.black, fontSize: 16)),
+                      textColor: Colors.black,
+                    ),
+                    SizedBox(height: UIConstants.fitToHeight(20, context)),
+
+                    //sign in with google
+                    MaterialButton(
+                      elevation: 0,
+                      minWidth: double.maxFinite,
+                      height: UIConstants.fitToHeight(50, context),
+                      onPressed: () => AuthService().signInWithGoogle(),
+                      color: Colors.blue,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(FontAwesomeIcons.google),
+                          SizedBox(width: 10),
+                          Text('Sign-in using Google',
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 16)),
+                        ],
+                      ),
+                      textColor: Colors.black,
+                    ),
+                    SizedBox(
+                      height: UIConstants.fitToHeight(20, context),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Dont Have an account?", style: TextStyle(color: Colors.black,fontSize: 14 ),),
-                        Text("sign Up?", style: TextStyle(color: Colors.black,fontSize: 14 ),),
+                        MaterialButton(
+                            elevation: 0,
+                            height: UIConstants.fitToHeight(25, context),
+                            color: Colors.blue[200],
+                            child: Text(
+                              'Skip Sign In?',
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 14),
+                            ),
+                            onPressed: () => Navigator.popAndPushNamed(
+                                context, MainScreen.routeName)),
+                        MaterialButton(
+                            elevation: 0,
+                            height: UIConstants.fitToHeight(25, context),
+                            color: Colors.blue[200],
+                            child: Column(
+                              children: [
+                                Text(
+                                  "Dont Have an account?",
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 14),
+                                ),
+                                Text(
+                                  "Sign Up?",
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 14),
+                                ),
+                              ],
+                            ),
+                            onPressed: () => widget.toggleViewParameter())
                       ],
                     ),
-                    onPressed: () => Null
-                   ) ],
+                    SizedBox(height: UIConstants.fitToHeight(100, context)),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: _buildFooterLogo(),
+                    )
+                  ],
+                ),
               ),
-              SizedBox(height: UIConstants.fitToHeight(100, context)),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: _buildFooterLogo(),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
+            ),
+          );
   }
 
   _buildFooterLogo() {
@@ -155,8 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  
-Widget passInputWidget(
+  Widget passInputWidget(
     TextEditingController textEditingController,
     String validation,
     bool,
@@ -194,14 +216,17 @@ Widget passInputWidget(
         ),
       ),
       obscureText: isHidden,
-       validator: (String? value) {
-        if(value!.isEmpty) { 
-          validation : null;}
-          else return null;
-          },
+      validator: (String? value) {
+        if (value!.isEmpty) {
+          validation:
+          null;
+        } else
+          return null;
+      },
       onSaved: save,
     );
   }
+
   Widget emailInputWidget(TextEditingController textEditingController,
       String validation, bool, String label, String hint, save) {
     return TextFormField(
@@ -226,14 +251,17 @@ Widget passInputWidget(
       ),
       obscureText: bool,
       validator: (String? value) {
-        if(value!.isEmpty) { 
-          validation : null;}
-          else return null;
-          },
+        if (value!.isEmpty) {
+          validation:
+          null;
+        } else
+          return null;
+      },
       onSaved: save,
     );
   }
-   void togglePasswordView() {
+
+  void togglePasswordView() {
     setState(() {
       isHidden = !isHidden;
     });

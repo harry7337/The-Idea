@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import './signin.dart';
-import 'package:huegahsample/screen/authenticate/signin.dart';
+import 'package:bizgram/screen/authenticate/signin.dart';
 import './register.dart';
 
 class Authenticate extends StatefulWidget {

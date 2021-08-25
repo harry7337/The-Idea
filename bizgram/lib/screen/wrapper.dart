@@ -1,3 +1,4 @@
+import 'package:bizgram/screen/authenticate/authenticate.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,7 @@ class Wrapper extends StatelessWidget {
             return MainScreen();
           } else {
             print("Null User");
-            return LoginScreen();
+            return Authenticate();
           }
         }
         //snapshot.connectionState==ConnectionState.waiting

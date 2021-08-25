@@ -1,5 +1,4 @@
 import 'package:bizgram/constants/UIconstants.dart';
-import 'package:bizgram/screen/authenticate/signin.dart';
 import 'package:bizgram/screen/home/MainScreen.dart';
 import 'package:bizgram/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,9 +10,8 @@ import 'package:bizgram/screen/shared/loading.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class Register extends StatefulWidget {
-   
-  static const routeName = './signup';
- 
+  final Function toggleViewParameter;
+  Register({required this.toggleViewParameter});
 
   @override
   _RegisterState createState() => _RegisterState();
@@ -152,7 +150,7 @@ class _RegisterState extends State<Register> {
                               ),
                             ],
                           ),
-                          onPressed: () => Navigator.of(context).popAndPushNamed(LoginScreen.routeName)
+                          onPressed: () => widget.toggleViewParameter(),
                         )
                       ],
                     ),

@@ -3,6 +3,7 @@ import 'package:bizgram/widgets/slide_dots.dart';
 import 'package:bizgram/widgets/slide_items.dart';
 import 'package:flutter/material.dart';
 import '../authenticate/SignUp.dart';
+import '../wrapper.dart';
 import '../authenticate/signin.dart';
 import 'package:bizgram/models/slide.dart';
 
@@ -110,9 +111,14 @@ class _GettingStartedScreenState extends State<GettingStartedScreen> {
                     padding: const EdgeInsets.all(15),
                     color: logo,
                     textColor: Colors.black,
-                    onPressed: () {
-                      Navigator.of(context).pushNamed(Register.routeName);
-                    },
+                    onPressed: ()  {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => Wrapper(),
+                  ),
+                );
+              },
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -128,9 +134,14 @@ class _GettingStartedScreenState extends State<GettingStartedScreen> {
                           'Login',
                           style: TextStyle(fontSize: 18),
                         ),
-                        onPressed: () {
-                          Navigator.of(context).pushNamed(LoginScreen.routeName);
-                        },
+                        onPressed: ()  {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => Wrapper(),
+                  ),
+                );
+              },
                       ),
                     ],
                   ),

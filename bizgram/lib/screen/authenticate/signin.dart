@@ -1,5 +1,4 @@
 import 'package:bizgram/constants/UIconstants.dart';
-import 'package:bizgram/screen/authenticate/SignUp.dart';
 import 'package:bizgram/screen/home/MainScreen.dart';
 import 'package:bizgram/screen/shared/loading.dart';
 import 'package:flutter/material.dart';
@@ -11,10 +10,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:bizgram/services/auth.dart';
 
 class LoginScreen extends StatefulWidget {
-
- 
-  static const routeName = '/signIn';
-  
+  final Function toggleViewParameter;
+  LoginScreen({required this.toggleViewParameter});
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -152,7 +149,33 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ],
                             ),
-                            onPressed: () => Navigator.of(context).popAndPushNamed(Register.routeName))
+                            onPressed: () => showDialog(
+                              context: context, builder: (BuildContext context){
+                              return AlertDialog(
+                               
+                                backgroundColor: Colors.brown[400],
+                            
+                                content: Container(
+                                  height: UIConstants.fitToHeight(100, context),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text("You are one step away",textAlign: TextAlign.center,style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),),
+                                  RaisedButton(
+                                  color: primary,
+                                  child: Text("I want a buyer profile",style: TextStyle(color: Colors.black),),
+                                  onPressed: () => {}
+                                    ),
+                              RaisedButton(
+                              color: primary,
+                              child: Text("I want a seller profile",style: TextStyle(color: Colors.black),),
+                              onPressed: () => {})
+                                  ],
+                              ),
+                                ));
+                            })
+                              
+                            )
                       ],
                     ),
                     SizedBox(height: UIConstants.fitToHeight(100, context)),
@@ -268,5 +291,24 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       isHidden = !isHidden;
     });
+  }
+   _openPopUp(context){
+    AlertDialog(
+      backgroundColor: logo,
+      title: Text("You are one step away",textAlign: TextAlign.center,style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),),
+    content: Column(
+      children: <Widget>[
+        RaisedButton(
+          color: primary,
+          child: Text("I want a buyer profile",style: TextStyle(color: Colors.black),),
+          onPressed: () => {}
+        ),
+        RaisedButton(
+          color: primary,
+          child: Text("I want a seller profile",style: TextStyle(color: Colors.black),),
+          onPressed: () => {})
+      ],
+    ),
+    );
   }
 }

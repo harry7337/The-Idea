@@ -1,4 +1,3 @@
-import 'package:bizgram/screen/authenticate/SignUp.dart';
 import 'package:bizgram/screen/authenticate/signin.dart';
 import 'package:bizgram/screen/home/GettingStarted.dart';
 import 'package:bizgram/screen/wrapper.dart';
@@ -15,16 +14,14 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       title: 'bizgram',
       home: Home(),
       routes: {
-        MainScreen.routeName: (ctx) => MainScreen(),
-        LoginScreen.routeName: (ctx) => LoginScreen(),
-        Register.routeName: (ctx) => Register()
+        MainScreen.routeName: (ctx) => MainScreen()
       },
     );
   }
@@ -36,11 +33,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   Color primary = Color.fromRGBO(245, 245, 220, 20);
   Color secondary = Color.fromRGBO(255, 218, 185, 20);
   Color logo = Color.fromRGBO(128, 117, 90, 60);
   @override
   Widget build(BuildContext context) {
-    return GettingStartedScreen();
-  }}
+    return GettingStartedScreen();}}

@@ -1,35 +1,51 @@
-import 'package:flutter/material.dart';
-import 'package:bizgram/models/person.dart';
+import 'dart:html';
 
-import 'buyer.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:phone_number/phone_number.dart';
 
-class Seller extends Person {
-  final String enterpriceName;
+class SellerData {
+  final String uid;
+  final String displayName;
   final String address;
-  String bio = " ";
-  List<String> productGenre = [];
-  List<Buyer> followers = [];
-  Map<String, Image> productPictures = {};
-
-  Seller({
-    required String name,
-    required String phNo,
-    required String email,
-    required String userName,
-    required this.enterpriceName,
+  final EmailInputElement emailID;
+  final String countryCode;
+  final PhoneNumber phoneNumber;
+  final Image aadhar; 
+  final String panNumber; 
+  final Image productpic; 
+  final PasswordCredential password; 
+  final bool worldwide;
+  final bool COD;
+  
+  const SellerData ({
+    required this.uid,
+    required this.displayName,
     required this.address,
-    required this.bio,
-  }) : super(name, phNo, email, userName);
+    required this.countryCode,
+    required this.emailID,
+    required this.phoneNumber,
+    required this.password,
+    required this.aadhar,
+    required this.COD,
+    required this.panNumber,
+    required this.productpic,
+    required this.worldwide
+  });
 
-  String getAddress() {
-    return this.address;
-  }
-
-  List<Buyer> getFollowers() {
-    return this.followers;
-  }
-
-  int getFollowerCount() {
-    return this.followers.length;
+  factory SellerData.fromJson(Map<String, dynamic> json){
+    return SellerData(
+      uid: json['UID'].toString(),
+      displayName: json['DisplayName'].toString(),
+      address: json['addressName'].toString(),
+      countryCode:  json['CountryCode'].toString(),
+      emailID: json['emailId'],
+      phoneNumber: json['phoneNumber'],
+      COD: json['COD'],
+      aadhar: json['aadhar'],
+      panNumber: json['pan'],
+      password: json['password'],
+      productpic: json['productpic'],
+      worldwide: json['worldwide']
+    );
   }
 }

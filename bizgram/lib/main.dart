@@ -1,3 +1,5 @@
+import 'package:bizgram/screen/authenticate/BuyerSignUp.dart';
+import 'package:bizgram/screen/authenticate/sellerSignUp.dart';
 import 'package:bizgram/screen/authenticate/signin.dart';
 import 'package:bizgram/screen/home/GettingStarted.dart';
 import 'package:bizgram/screen/wrapper.dart';
@@ -21,7 +23,9 @@ class MyApp extends StatelessWidget {
       title: 'bizgram',
       home: Home(),
       routes: {
-        MainScreen.routeName: (ctx) => MainScreen()
+        MainScreen.routeName: (ctx) => MainScreen(),
+        Wrapper.routeName: (ctx)=> Wrapper(),
+        Register.routeName: (ctx) => Register()
       },
     );
   }

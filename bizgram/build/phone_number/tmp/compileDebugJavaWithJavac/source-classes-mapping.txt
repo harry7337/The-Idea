@@ -1,0 +1,6 @@
+com/julienvignali/phone_number/BuildConfig.java
+ com.julienvignali.phone_number.BuildConfig
+com/julienvignali/phone_number/PhoneNumberPlugin.java
+ com.julienvignali.phone_number.PhoneNumberPlugin
+ com.julienvignali.phone_number.PhoneNumberPlugin$1
+ com.julienvignali.phone_number.PhoneNumberPlugin$2

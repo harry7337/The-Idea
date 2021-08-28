@@ -6,10 +6,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
+import './BuyerSignUp.dart';
 import 'package:bizgram/services/auth.dart';
 
 class LoginScreen extends StatefulWidget {
+  static const routeName = '.login';
   final Function toggleViewParameter;
   LoginScreen({required this.toggleViewParameter});
   @override
@@ -164,7 +165,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   RaisedButton(
                                   color: primary,
                                   child: Text("I want a buyer profile",style: TextStyle(color: Colors.black),),
-                                  onPressed: () => {}
+                                  onPressed: () => Navigator.of(context).popAndPushNamed(Register.routeName)
                                     ),
                               RaisedButton(
                               color: primary,

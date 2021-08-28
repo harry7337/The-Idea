@@ -8,6 +8,7 @@ import '../services/auth.dart';
 import './shared/loading.dart';
 
 class Wrapper extends StatelessWidget {
+  static const routeName = '/wrapper';
   final _auth = AuthService();
 
   @override

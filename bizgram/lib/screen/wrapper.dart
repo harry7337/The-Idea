@@ -10,6 +10,8 @@ import './shared/loading.dart';
 class Wrapper extends StatelessWidget {
   static const routeName = '/wrapper';
   final _auth = AuthService();
+  final bool showSignUp;
+  Wrapper({required this.showSignUp});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class Wrapper extends StatelessWidget {
             return MainScreen();
           } else {
             print("Null User");
-            return Authenticate();
+            return Authenticate(showSignUp);
           }
         }
         //snapshot.connectionState==ConnectionState.waiting

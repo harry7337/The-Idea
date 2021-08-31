@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import './BuyerSignUp.dart';
+import 'buyer_signup.dart';
 import 'package:bizgram/services/auth.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -151,32 +151,47 @@ class _LoginScreenState extends State<LoginScreen> {
                               ],
                             ),
                             onPressed: () => showDialog(
-                              context: context, builder: (BuildContext context){
-                              return AlertDialog(
-                               
-                                backgroundColor: Colors.brown[400],
-                            
-                                content: Container(
-                                  height: UIConstants.fitToHeight(100, context),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text("You are one step away",textAlign: TextAlign.center,style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),),
-                                  RaisedButton(
-                                  color: primary,
-                                  child: Text("I want a buyer profile",style: TextStyle(color: Colors.black),),
-                                  onPressed: () => Navigator.of(context).popAndPushNamed(Register.routeName)
-                                    ),
-                              RaisedButton(
-                              color: primary,
-                              child: Text("I want a seller profile",style: TextStyle(color: Colors.black),),
-                              onPressed: () => {})
-                                  ],
-                              ),
-                                ));
-                            })
-                              
-                            )
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                      backgroundColor: Colors.brown[400],
+                                      content: Container(
+                                        height: UIConstants.fitToHeight(
+                                            100, context),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            Text(
+                                              "You are one step away",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            RaisedButton(
+                                                color: primary,
+                                                child: Text(
+                                                  "I want a buyer profile",
+                                                  style: TextStyle(
+                                                      color: Colors.black),
+                                                ),
+                                                onPressed: () => Navigator.of(
+                                                        context)
+                                                    .popAndPushNamed(
+                                                        Register.routeName)),
+                                            RaisedButton(
+                                                color: primary,
+                                                child: Text(
+                                                  "I want a seller profile",
+                                                  style: TextStyle(
+                                                      color: Colors.black),
+                                                ),
+                                                onPressed: () => {})
+                                          ],
+                                        ),
+                                      ));
+                                }))
                       ],
                     ),
                     SizedBox(height: UIConstants.fitToHeight(100, context)),
@@ -293,23 +308,33 @@ class _LoginScreenState extends State<LoginScreen> {
       isHidden = !isHidden;
     });
   }
-   _openPopUp(context){
+
+  _openPopUp(context) {
     AlertDialog(
       backgroundColor: logo,
-      title: Text("You are one step away",textAlign: TextAlign.center,style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),),
-    content: Column(
-      children: <Widget>[
-        RaisedButton(
-          color: primary,
-          child: Text("I want a buyer profile",style: TextStyle(color: Colors.black),),
-          onPressed: () => {}
-        ),
-        RaisedButton(
-          color: primary,
-          child: Text("I want a seller profile",style: TextStyle(color: Colors.black),),
-          onPressed: () => {})
-      ],
-    ),
+      title: Text(
+        "You are one step away",
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+      ),
+      content: Column(
+        children: <Widget>[
+          RaisedButton(
+              color: primary,
+              child: Text(
+                "I want a buyer profile",
+                style: TextStyle(color: Colors.black),
+              ),
+              onPressed: () => {}),
+          RaisedButton(
+              color: primary,
+              child: Text(
+                "I want a seller profile",
+                style: TextStyle(color: Colors.black),
+              ),
+              onPressed: () => {})
+        ],
+      ),
     );
   }
 }

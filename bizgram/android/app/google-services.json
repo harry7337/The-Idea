@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "403523029493-fhu4cfl4bin5qadivo8van6dfu5rkn45.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bizgram",
+            "certificate_hash": "b4d4cc9f1be063f4049085796e2f061f06cd2b31"
+          }
+        },
+        {
+          "client_id": "403523029493-kdmgqfs39fk87ikr2dpaminaa55d2ord.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bizgram",
+            "certificate_hash": "21c581b6d9cefa0642ee2646c66004bbc298c3ec"
+          }
+        },
+        {
           "client_id": "403523029493-vae4naskbdfhrb0i2q062onq4c5uonuo.apps.googleusercontent.com",
           "client_type": 3
         }

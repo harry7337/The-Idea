@@ -1,7 +1,7 @@
-import 'package:bizgram/screen/authenticate/BuyerSignUp.dart';
-import 'package:bizgram/screen/authenticate/sellerSignUp.dart';
+import 'package:bizgram/screen/authenticate/buyer_signup.dart';
+import 'package:bizgram/screen/authenticate/seller_signup.dart';
 import 'package:bizgram/screen/authenticate/signin.dart';
-import 'package:bizgram/screen/home/GettingStarted.dart';
+import 'package:bizgram/screen/home/getting_started.dart';
 import 'package:bizgram/screen/wrapper.dart';
 import 'package:flutter/material.dart';
 import './screen/home/MainScreen.dart';
@@ -16,7 +16,6 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -24,7 +23,9 @@ class MyApp extends StatelessWidget {
       home: Home(),
       routes: {
         MainScreen.routeName: (ctx) => MainScreen(),
-        Wrapper.routeName: (ctx)=> Wrapper(),
+        Wrapper.routeName: (ctx) => Wrapper(
+              showSignUp: true,
+            ),
         Register.routeName: (ctx) => Register()
       },
     );
@@ -42,4 +43,6 @@ class _HomeState extends State<Home> {
   Color logo = Color.fromRGBO(128, 117, 90, 60);
   @override
   Widget build(BuildContext context) {
-    return GettingStartedScreen();}}
+    return GettingStartedScreen();
+  }
+}

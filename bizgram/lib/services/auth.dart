@@ -15,7 +15,7 @@ class AuthService {
     final roles = firestore.collection("users").doc(user.uid);
     if (!(await roles.get()).exists) {
       roles.set({
-        'roles': {'seller': false}
+        'roles': {'seller': true}
       });
       print('Doc set');
     }

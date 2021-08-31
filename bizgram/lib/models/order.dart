@@ -4,7 +4,7 @@ import 'package:bizgram/models/seller.dart';
 class Order {
   final String _id;
   final Seller _seller;
-  final Buyer _buyer;
+  final BuyerData _buyer;
   final DateTime _issueDate;
   DateTime _deliveryDate = DateTime.now();
   DateTime _expectedDeliveryDate = DateTime.now();

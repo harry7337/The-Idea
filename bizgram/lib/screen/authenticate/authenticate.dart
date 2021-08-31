@@ -1,25 +1,27 @@
 import 'package:flutter/material.dart';
 import './signin.dart';
 import 'package:bizgram/screen/authenticate/signin.dart';
-import './SignUp.dart';
+import 'signup.dart';
 
 class Authenticate extends StatefulWidget {
+  bool showSignUp;
+  Authenticate(this.showSignUp);
   @override
   _AuthenticateState createState() => _AuthenticateState();
 }
 
 class _AuthenticateState extends State<Authenticate> {
-  bool showSignUp = true;
+  //bool showSignUp = true;
   void toggleView() {
     setState(() {
-      showSignUp = !showSignUp;
+      widget.showSignUp = !widget.showSignUp;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: showSignUp
+      child: widget.showSignUp
           ? Register(
               toggleViewParameter: toggleView,
             )

@@ -90,6 +90,8 @@ androidx/core/view/ViewCompat$NestedScrollType.class
 androidx/core/view/ViewCompat$ScrollAxis.class
 androidx/core/view/ViewCompat$ScrollIndicators.class
 androidx/core/widget/TextViewCompat$AutoSizeTextType.class
+androidx/exifinterface/media/ExifInterface$ExifStreamType.class
+androidx/exifinterface/media/ExifInterface$IfdType.class
 androidx/lifecycle/Lifecycle$Event.class
 androidx/lifecycle/OnLifecycleEvent.class
 androidx/multidex/MultiDex$V14$ElementConstructor.class

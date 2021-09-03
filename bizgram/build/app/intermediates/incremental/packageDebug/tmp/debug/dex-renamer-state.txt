@@ -1,10 +1,10 @@
-#Tue Aug 31 20:25:01 IST 2021
+#Thu Sep 02 10:52:15 IST 2021
 path.2=classes3.dex
 path.1=classes2.dex
 path.0=classes.dex
 renamed.2=classes3.dex
 renamed.1=classes2.dex
 renamed.0=classes.dex
-base.2=/media/harry16614/a8f585da-21f4-4205-ac71-85069ee75f47/harry16614/projects/The-Idea/bizgram/build/app/intermediates/dex/debug/mergeDexDebug/classes3.dex
-base.1=/media/harry16614/a8f585da-21f4-4205-ac71-85069ee75f47/harry16614/projects/The-Idea/bizgram/build/app/intermediates/dex/debug/mergeDexDebug/classes2.dex
-base.0=/media/harry16614/a8f585da-21f4-4205-ac71-85069ee75f47/harry16614/projects/The-Idea/bizgram/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
+base.2=C\:\\Users\\91819\\The-Idea\\bizgram\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes3.dex
+base.1=C\:\\Users\\91819\\The-Idea\\bizgram\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes2.dex
+base.0=C\:\\Users\\91819\\The-Idea\\bizgram\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex

@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:bizgram/models/seller.dart';
 import 'package:bizgram/services/update_doc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,6 +17,9 @@ class AddSlots extends StatefulWidget {
 //TODO: add loading widget when uploading data
 //TODO: add separate screen for seller and buyer sign up and then change userPrivileages() in authservice class
 class _AddSlotsState extends State<AddSlots> {
+   Color primary = Color.fromRGBO(245, 245, 220, 20);
+  Color secondary = Color.fromRGBO(255, 218, 185, 20);
+  Color logo = Color.fromRGBO(128, 117, 90, 60);
   final firebase_storage.Reference sref =
       firebase_storage.FirebaseStorage.instance.ref().child('Images');
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -43,11 +46,11 @@ class _AddSlotsState extends State<AddSlots> {
   List<DropdownMenuItem<bool>>? get codOptions {
     return [
       DropdownMenuItem(
-        child: Text('True'),
+        child: Text('Yes'),
         value: true,
       ),
       DropdownMenuItem(
-        child: Text('False'),
+        child: Text('No'),
         value: false,
       ),
     ];
@@ -55,341 +58,347 @@ class _AddSlotsState extends State<AddSlots> {
 
   @override
   Widget build(BuildContext ctx) {
-    return new Card(
-      elevation: 0,
-      child: Padding(
-        padding: EdgeInsets.only(
-            top: 10.0,
-            right: 10,
-            left: 10,
-            bottom: MediaQuery.of(ctx).viewInsets.bottom),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              //display name
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Container(
-                  padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(color: Colors.blue)),
-                  child: TextFormField(
-                    keyboardType: TextInputType.name,
-                    decoration: InputDecoration(
-                      labelText: 'Name',
-                      border: InputBorder.none,
-                      prefixIcon: Icon(Icons.ac_unit_sharp),
-                    ),
-                    controller: _nameController,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please Enter a Valid Name';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-              ),
-
-              //address
-              Padding(
-                padding:
-                    EdgeInsets.only(top: 10.0, bottom: 10, left: 10, right: 10),
-                child: Container(
-                  padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(color: Colors.blue)),
-                  child: TextFormField(
-                    keyboardType: TextInputType.multiline,
-                    decoration: InputDecoration(
+    return Scaffold(
+      backgroundColor: primary,
+      body: new Card(
+        color: primary,
+        elevation: 0,
+        child: Padding(
+          padding: EdgeInsets.only(
+              top: 10.0,
+              right: 10,
+              left: 10,
+              bottom: MediaQuery.of(ctx).viewInsets.bottom),
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              children: [
+                Text("Hello there, lil entrepenaur!",style: TextStyle(fontSize: 28,fontWeight: FontWeight.bold),),
+                Text("Tell us more about you!",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold)),
+                //display name
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Container(
+                    padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: Colors.black)),
+                    child: TextFormField(
+                      keyboardType: TextInputType.name,
+                      decoration: InputDecoration(
+                        labelText: 'Name',
                         border: InputBorder.none,
-                        labelText: 'Address',
-                        prefixIcon: Icon(Icons.description_sharp)),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please Enter a valid address';
-                      }
-                      return null;
-                    },
-                    controller: _addressController,
-                  ),
-                ),
-              ),
-
-              //contact number
-              //TODO: add country code
-              Padding(
-                padding:
-                    EdgeInsets.only(top: 10.0, right: 10, left: 10, bottom: 10),
-                child: Container(
-                  padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(color: Colors.blue)),
-                  child: TextFormField(
-                    keyboardType: TextInputType.phone,
-                    controller: _phoneNumberController,
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
-                        labelText: 'Contact Number',
-                        prefixIcon: Icon(Icons.phone),
-                        prefixText: '+91'),
-                    validator: (value) {
-                      if (value == null || value.isEmpty || value.length < 10) {
-                        return 'Please Enter a Valid Phone Number';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-              ),
-
-              //pan number
-              //TODO: Add pan number check
-              Padding(
-                padding:
-                    EdgeInsets.only(top: 10.0, right: 10, left: 10, bottom: 10),
-                child: Container(
-                  padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(color: Colors.blue)),
-                  child: TextFormField(
-                    keyboardType: TextInputType.phone,
-                    controller: _panNumberController,
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
-                        labelText: 'Pan Number',
-                        prefixIcon: Icon(Icons.phone)),
-                    validator: (value) {
-                      if (value == null || value.isEmpty || value.length < 10) {
-                        return 'Please Enter a Valid Pan Number';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-              ),
-
-              //upload aadhar image
-              //TODO: handle error when pic is not selected
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Container(
-                  padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(color: Colors.blue)),
-                  child: TextFormField(
-                    keyboardType: TextInputType.phone,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      labelText: 'Upload Aadhar Image',
-                      prefixIcon: Icon(Icons.image),
-                      hintText: _aadharPic != null ? "aadhar.jpg" : " ",
-                    ),
-                    onTap: () async {
-                      //Get the file from the image picker and store it
-                      final image =
-                          await _picker.getImage(source: ImageSource.gallery);
-                      final File file = File(image!.path);
-                      _aadharPic = file;
-                    },
-                    readOnly: true,
-                  ),
-                ),
-              ),
-
-              //upload product image(s)
-              //TODO: handle error when pic is not selected
-              //TODO: add functionality to select multiple pictures
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Container(
-                  padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(color: Colors.blue)),
-                  child: TextFormField(
-                    keyboardType: TextInputType.phone,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      labelText: 'Upload Product Pictures',
-                      prefixIcon: Icon(Icons.image),
-                      hintText: _productPic != null ? "productPic.jpg" : " ",
-                    ),
-                    onTap: () async {
-                      //Get the file from the image picker and store it
-                      final image =
-                          await _picker.getImage(source: ImageSource.gallery);
-                      final File file = File(image!.path);
-                      _productPic = file;
-                    },
-                    readOnly: true,
-                  ),
-                ),
-              ),
-
-              //cod
-              Padding(
-                padding:
-                    EdgeInsets.only(top: 10.0, right: 10, left: 10, bottom: 10),
-                child: Container(
-                  padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(color: Colors.blue)),
-                  child: DropdownButtonFormField<bool>(
-                    items: codOptions,
-                    icon: Icon(Icons.delivery_dining),
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      labelText: 'COD?',
-                    ),
-                    onChanged: (cod) {
-                      _cod = cod;
-                    },
-                    validator: (value) {
-                      if (value == null) {
-                        return 'Please Select a valid option';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-              ),
-
-              //worldwide
-              Padding(
-                padding:
-                    EdgeInsets.only(top: 10.0, right: 10, left: 10, bottom: 10),
-                child: Container(
-                  padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(color: Colors.blue)),
-                  child: DropdownButtonFormField<bool>(
-                    items: codOptions,
-                    icon: Icon(Icons.local_shipping_outlined),
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      labelText: 'Worldwide Shipping?',
-                    ),
-                    onChanged: (ww) {
-                      _worldwide = ww;
-                    },
-                    validator: (value) {
-                      if (value == null) {
-                        return 'Please Select a valid option';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-              ),
-              //create event button and cancel buttom
-              SizedBox(
-                height: 100,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    //back button
-                    ElevatedButton(
-                      onPressed: () async {
-                        CollectionReference users =
-                            FirebaseFirestore.instance.collection('users');
-                        CollectionReference sellers =
-                            FirebaseFirestore.instance.collection('users');
-                        //delete in users
-                        users
-                            .doc(uid)
-                            .delete()
-                            .then((value) => print("User Deleted"))
-                            .catchError((error) =>
-                                print("Failed to delete user: $error"));
-                        //delete in sellers
-                        sellers
-                            .doc(uid)
-                            .delete()
-                            .then((value) => print("User Deleted"))
-                            .catchError((error) =>
-                                print("Failed to delete user: $error"));
-
-                        //delete user from firebase auth
-                        try {
-                          await FirebaseAuth.instance.currentUser!.delete();
-                        } on FirebaseAuthException catch (e) {
-                          if (e.code == 'requires-recent-login') {
-                            print(
-                                'The user must reauthenticate before this operation can be executed.');
-                          }
-                        }
-                        Navigator.pop(context);
-                      },
-                      child: Text('Back'),
-                      style: ButtonStyle(
-                          elevation: MaterialStateProperty.all(0.00)),
-                    ),
-
-                    //clear field button
-                    TextButton(
-                      onPressed: _clearFields,
-                      child: Text('Clear Fields'),
-                    ),
-
-                    //next button
-                    ElevatedButton(
-                      style: ButtonStyle(
-                        elevation: MaterialStateProperty.all(0.00),
+                        prefixIcon: Icon(Icons.person),
                       ),
-                      onPressed: () async {
-                        // Validate returns true if the form is valid, or false otherwise.
-                        if (_formKey.currentState!.validate()) {
-                          // If the form is valid, display a snackbar
-
-                          ScaffoldMessenger.of(ctx).showSnackBar(
-                              SnackBar(content: Text('Uploading Data')));
-                          await uploadPic();
-                          Seller seller = new Seller(
-                              uid: uid,
-                              displayName: _nameController.text,
-                              address: _addressController.text,
-                              countryCode: _countryCodeController.text,
-                              emailID: emailID,
-                              phoneNumber: _phoneNumberController.text,
-                              aadhar: _aadharPic,
-                              panNumber: _panNumberController.text,
-                              productPic: [_productPic],
-                              COD: _cod,
-                              worldwide: _worldwide);
-
-                          await UpdateDoc(seller: seller).update().then((_) {
-                            ScaffoldMessenger.of(ctx).showSnackBar(
-                              SnackBar(
-                                content: Text('Updated Doc'),
-                              ),
-                            );
-                            Navigator.pop(context);
-                            _clearFields();
-                          }, onError: (_) {
-                            ScaffoldMessenger.of(ctx).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                    'Something went wrong, please try again.'),
-                              ),
-                            );
-                          });
+                      controller: _nameController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please Enter a Valid Name';
                         }
+                        return null;
                       },
-                      child: Text('Next'),
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ],
+    
+                //address
+                Padding(
+                  padding:
+                      EdgeInsets.only(top: 10.0, bottom: 10, left: 10, right: 10),
+                  child: Container(
+                    padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: Colors.black)),
+                    child: TextFormField(
+                      maxLength: 3,
+                      keyboardType: TextInputType.multiline,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          labelText: 'Address',
+                          prefixIcon: Icon(Icons.description_sharp)),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please Enter a valid address';
+                        }
+                        return null;
+                      },
+                      controller: _addressController,
+                    ),
+                  ),
+                ),
+    
+                //contact number
+                //TODO: add country code
+                Padding(
+                  padding:
+                      EdgeInsets.only(top: 10.0, right: 10, left: 10, bottom: 10),
+                  child: Container(
+                    padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: Colors.black)),
+                    child:     IntlPhoneField(
+                  decoration: InputDecoration(
+                    labelText: 'Phone Number',
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(),
+                    ),
+                  ),
+                  onChanged: (phone) {
+                    print(phone.completeNumber);
+                  },
+                  onCountryChanged: (phone) {
+                    print('Country code changed to: ' + phone.countryCode.toString());
+                  },
+                ),
+                  ),
+                ),
+    
+                //pan number
+                //TODO: Add pan number check
+                Padding(
+                  padding:
+                      EdgeInsets.only(top: 10.0, right: 10, left: 10, bottom: 10),
+                  child: Container(
+                    padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: Colors.black)),
+                    child: TextFormField(
+                      keyboardType: TextInputType.text,
+                      controller: _panNumberController,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          labelText: 'Pan Number',
+                          prefixIcon: Icon(Icons.person_add)),
+                      validator: (value) {
+                        if (value == null || value.isEmpty || value.length < 10) {
+                          return 'Please Enter a Valid Pan Number';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                ),
+    
+                //upload aadhar image
+                //TODO: handle error when pic is not selected
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Container(
+                    padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: Colors.black)),
+                    child: TextFormField(
+                      keyboardType: TextInputType.phone,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        labelText: 'Upload Aadhar Image',
+                        prefixIcon: Icon(Icons.image),
+                        //hintText: _aadharPic != null ? "aadhar.jpg" : " ",
+                      ),
+                      onTap: () async {
+                        //Get the file from the image picker and store it
+                        final image =
+                            await _picker.getImage(source: ImageSource.gallery);
+                        final File file = File(image!.path);
+                        _aadharPic = file;
+                      },
+                      readOnly: true,
+                    ),
+                  ),
+                ),
+    
+                //upload product image(s)
+                //TODO: handle error when pic is not selected
+                //TODO: add functionality to select multiple pictures
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Container(
+                    padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: Colors.black)),
+                    child: TextFormField(
+                      keyboardType: TextInputType.phone,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        labelText: 'Upload Product Pictures',
+                        prefixIcon: Icon(Icons.image),
+                        //.hintText: _productPic != null ? "productPic.jpg" : " ",
+                      ),
+                      onTap: () async {
+                        //Get the file from the image picker and store it
+                        final image =
+                            await _picker.getImage(source: ImageSource.gallery);
+                        final File file = File(image!.path);
+                        _productPic = file;
+                      },
+                      readOnly: true,
+                    ),
+                  ),
+                ),
+    
+                //cod
+                Padding(
+                  padding:
+                      EdgeInsets.only(top: 10.0, right: 10, left: 10, bottom: 10),
+                  child: Container(
+                    padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: Colors.black)),
+                    child: DropdownButtonFormField<bool>(
+                      items: codOptions,
+                      icon: Icon(Icons.delivery_dining),
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        labelText: 'COD?',
+                      ),
+                      onChanged: (cod) {
+                        _cod = cod;
+                      },
+                      validator: (value) {
+                        if (value == null) {
+                          return 'Please Select a valid option';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                ),
+    
+                //worldwide
+                Padding(
+                  padding:
+                      EdgeInsets.only(top: 10.0, right: 10, left: 10, bottom: 10),
+                  child: Container(
+                    padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: Colors.black)),
+                    child: DropdownButtonFormField<bool>(
+                      items: codOptions,
+                      icon: Icon(Icons.local_shipping_outlined),
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        labelText: 'Worldwide Shipping?',
+                      ),
+                      onChanged: (ww) {
+                        _worldwide = ww;
+                      },
+                      validator: (value) {
+                        if (value == null) {
+                          return 'Please Select a valid option';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                ),
+                //create event button and cancel buttom
+                SizedBox(
+                  height: 100,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      //back button
+                      ElevatedButton(
+                        onPressed: () async {
+                          CollectionReference users =
+                              FirebaseFirestore.instance.collection('users');
+                          CollectionReference sellers =
+                              FirebaseFirestore.instance.collection('users');
+                          //delete in users
+                          users
+                              .doc(uid)
+                              .delete()
+                              .then((value) => print("User Deleted"))
+                              .catchError((error) =>
+                                  print("Failed to delete user: $error"));
+                          //delete in sellers
+                          sellers
+                              .doc(uid)
+                              .delete()
+                              .then((value) => print("User Deleted"))
+                              .catchError((error) =>
+                                  print("Failed to delete user: $error"));
+    
+                          //delete user from firebase auth
+                          try {
+                            await FirebaseAuth.instance.currentUser!.delete();
+                          } on FirebaseAuthException catch (e) {
+                            if (e.code == 'requires-recent-login') {
+                              print(
+                                  'The user must reauthenticate before this operation can be executed.');
+                            }
+                          }
+                          Navigator.pop(context);
+                        },
+                        child: Text('Back'),
+                        style: ButtonStyle(
+                            elevation: MaterialStateProperty.all(0.00)),
+                      ),
+    
+                      //clear field button
+                      TextButton(
+                        onPressed: _clearFields,
+                        child: Text('Clear Fields'),
+                      ),
+    
+                      //next button
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          elevation: MaterialStateProperty.all(0.00),
+                        ),
+                        onPressed: () async {
+                          // Validate returns true if the form is valid, or false otherwise.
+                          if (_formKey.currentState!.validate()) {
+                            // If the form is valid, display a snackbar
+    
+                            ScaffoldMessenger.of(ctx).showSnackBar(
+                                SnackBar(content: Text('Uploading Data')));
+                            await uploadPic();
+                            Seller seller = new Seller(
+                                uid: uid,
+                                displayName: _nameController.text,
+                                address: _addressController.text,
+                                countryCode: _countryCodeController.text,
+                                emailID: emailID,
+                                phoneNumber: _phoneNumberController.text,
+                                aadhar: _aadharPic,
+                                panNumber: _panNumberController.text,
+                                productPic: [_productPic],
+                                COD: _cod,
+                                worldwide: _worldwide);
+    
+                            await UpdateDoc(seller: seller).update().then((_) {
+                              ScaffoldMessenger.of(ctx).showSnackBar(
+                                SnackBar(
+                                  content: Text('Updated Doc'),
+                                ),
+                              );
+                              Navigator.pop(context);
+                              _clearFields();
+                            }, onError: (_) {
+                              ScaffoldMessenger.of(ctx).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                      'Something went wrong, please try again.'),
+                                ),
+                              );
+                            });
+                          }
+                        },
+                        child: Text('Next'),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -466,6 +475,6 @@ class _AddSlotsState extends State<AddSlots> {
       //Uri location = (await uploadTask.future).getDownloadURL();
 
       //returns the download url
-    }
+   }
   }
 }

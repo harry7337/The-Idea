@@ -1,6 +1,7 @@
 import 'package:bizgram/screen/authenticate/buyer_signup.dart';
 import 'package:bizgram/screen/authenticate/seller_signup.dart';
 import 'package:bizgram/screen/authenticate/signin.dart';
+import 'package:bizgram/screen/authenticate/signup.dart';
 import 'package:bizgram/screen/home/getting_started.dart';
 import 'package:bizgram/screen/wrapper.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         Wrapper.routeName: (ctx) => Wrapper(
               showSignUp: true,
             ),
-        Register.routeName: (ctx) => Register()
+        RegisterBuyer.routeName: (ctx) => RegisterBuyer(),
       },
     );
   }

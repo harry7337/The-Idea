@@ -21,6 +21,16 @@ class AuthService {
     }
   }
 
+  void buyerPrivileges(User user) async {
+    final roles = firestore.collection("users").doc(user.uid);
+    if (!(await roles.get()).exists) {
+      roles.set({
+        'roles': {'seller': false}
+      });
+      print('Doc set');
+    }
+  }
+
   //sign in with phone credential
   Future signInWithCredential(PhoneAuthCredential credential) async {
     User? user;

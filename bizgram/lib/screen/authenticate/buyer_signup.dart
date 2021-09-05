@@ -1,32 +1,32 @@
 import 'package:bizgram/constants/UIconstants.dart';
 import 'package:bizgram/net/firebase.dart';
+import 'package:bizgram/screen/authenticate/signup.dart';
 import 'package:bizgram/screen/home/MainScreen.dart';
 import 'package:bizgram/screen/wrapper.dart';
+import 'package:bizgram/services/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class Register extends StatefulWidget {
- static const routeName = "buyerSignup";
+class RegisterBuyer extends StatefulWidget {
+  static const routeName = "buyerSignup";
   @override
   _RegisterViewState createState() => _RegisterViewState();
 }
 
-class _RegisterViewState extends State<Register> {
+class _RegisterViewState extends State<RegisterBuyer> {
   final _formKey = GlobalKey<FormState>();
- 
+
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _repasswordController = TextEditingController();
-    Color primary = Color.fromRGBO(245, 245, 220, 20);
+  Color primary = Color.fromRGBO(245, 245, 220, 20);
   Color secondary = Color.fromRGBO(255, 218, 185, 20);
   Color logo = Color.fromRGBO(128, 117, 90, 60);
 
   @override
   Widget build(BuildContext context) {
-   
-
     final usernameField = TextFormField(
       controller: _usernameController,
       style: TextStyle(
@@ -153,7 +153,7 @@ class _RegisterViewState extends State<Register> {
         ),
         onPressed: () async {
           try {
-            await Firebase.initializeApp();
+            //await Firebase.initializeApp();
             UserCredential user =
                 await FirebaseAuth.instance.createUserWithEmailAndPassword(
               email: _emailController.text,
@@ -162,6 +162,8 @@ class _RegisterViewState extends State<Register> {
             User? updateUser = FirebaseAuth.instance.currentUser;
             updateUser!.updateProfile(displayName: _usernameController.text);
             buyerSetup(_usernameController.text);
+            var _auth = AuthService();
+            _auth.buyerPrivileges(updateUser);
             Navigator.of(context).pushNamed(MainScreen.routeName);
           } on FirebaseAuthException catch (e) {
             if (e.code == 'weak-password') {
@@ -184,12 +186,11 @@ class _RegisterViewState extends State<Register> {
         Padding(
           padding: EdgeInsets.all(8.0),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Wrap(
+          alignment: WrapAlignment.spaceBetween,
           children: <Widget>[
             Text(
               "Already have an account?",
-          
             ),
             MaterialButton(
               onPressed: () {
@@ -197,7 +198,18 @@ class _RegisterViewState extends State<Register> {
               },
               child: Text(
                 "Login",
-            style: TextStyle(color: Colors.black),
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+            Padding(padding: EdgeInsets.all(8)),
+            //sign up as seller
+            MaterialButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(
+                "Sign Up as a Seller?",
+                style: TextStyle(color: Colors.black),
               ),
             ),
           ],

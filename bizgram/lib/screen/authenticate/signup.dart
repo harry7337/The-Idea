@@ -149,16 +149,29 @@ class _RegisterState extends State<Register> {
                     ),
 
                     //skip sign up and sign in button
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Wrap(
+                      alignment: WrapAlignment.spaceBetween,
                       children: [
                         //skip sign up
+                        MaterialButton(
+                          elevation: 0,
+                          height: UIConstants.fitToHeight(25, context),
+                          color: Colors.blue[200],
+                          child: Text(
+                            'Skip Sign Up?',
+                            style: TextStyle(color: Colors.black, fontSize: 14),
+                          ),
+                          onPressed: () => Navigator.popAndPushNamed(
+                              context, MainScreen.routeName),
+                        ),
+
+                        //sign up as buyer
                         MaterialButton(
                             elevation: 0,
                             height: UIConstants.fitToHeight(25, context),
                             color: Colors.blue[200],
                             child: Text(
-                              'Skip Sign Up?',
+                              'Sign up as customer',
                               style:
                                   TextStyle(color: Colors.black, fontSize: 14),
                             ),

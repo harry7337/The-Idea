@@ -1,32 +1,46 @@
 import 'dart:io';
+import 'package:bizgram/constants/UIconstants.dart';
+import 'package:bizgram/screen/home/getting_started.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:bizgram/models/seller.dart';
 import 'package:bizgram/services/update_doc.dart';
+import 'package:otp_text_field/otp_field.dart';
+import 'package:otp_text_field/style.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+enum MobileVerificationState {
+  SHOW_MOBILE_FORM_STATE,
+  SHOW_OTP_FORM_STATE,
+}
 
 class AddSlots extends StatefulWidget {
   @override
   _AddSlotsState createState() => _AddSlotsState();
 }
 
+
 //TODO: beautify screen a bit more
 //TODO: add loading widget when uploading data
 //TODO: add separate screen for seller and buyer sign up and then change userPrivileages() in authservice class
 class _AddSlotsState extends State<AddSlots> {
+  MobileVerificationState currentState =
+      MobileVerificationState.SHOW_MOBILE_FORM_STATE;
    Color primary = Color.fromRGBO(245, 245, 220, 20);
   Color secondary = Color.fromRGBO(255, 218, 185, 20);
   Color logo = Color.fromRGBO(128, 117, 90, 60);
-  final firebase_storage.Reference sref =
-      firebase_storage.FirebaseStorage.instance.ref().child('Images');
+  late String verId;
+  bool codeSent = false;
+  int resendToken = 0;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  FirebaseAuth _auth = FirebaseAuth.instance;
   final uid = FirebaseAuth.instance.currentUser!.uid;
   final emailID = FirebaseAuth.instance.currentUser!.email;
   final _picker = ImagePicker();
   final _formKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   final _nameController = TextEditingController();
   final _addressController = TextEditingController();
@@ -34,14 +48,58 @@ class _AddSlotsState extends State<AddSlots> {
   final _emailIDController = TextEditingController();
   final _phoneNumberController = TextEditingController();
   final _panNumberController = TextEditingController();
-
+  final otpController = TextEditingController();
   var _aadharPic;
   var _productPic;
   var _cod;
   var _worldwide;
+  late String verificationId;
+  late String phone;
+  bool showLoading = false;
+      Future<void> verifyPhone() async {
+    await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: phone,
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          await FirebaseAuth.instance.signInWithCredential(credential);
+          final snackBar = SnackBar(content: Text("Login Success"));
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          final snackBar = SnackBar(content: Text("${e.message}"));
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        },
+        codeSent: (String verficationId, int? resendToken) {
+          setState(() {
+            codeSent = true;
+            verId = verficationId;
+          });
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {
+          setState(() {
+            verId = verificationId;
+          });
+        },
+        timeout: Duration(seconds: 60));
+  }
+
+  Future<void> verifyPin(String pin) async {
+    PhoneAuthCredential credential =
+        PhoneAuthProvider.credential(verificationId: verId, smsCode: pin);
+
+    try {
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      final snackBar = SnackBar(content: Text("Login Success"));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } on FirebaseAuthException catch (e) {
+      final snackBar = SnackBar(content: Text("${e.message}"));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+  }
+  
   //final List<File?> _productPic = [];
 
   DateTime selectedDate = DateTime.now();
+  
 
   List<DropdownMenuItem<bool>>? get codOptions {
     return [
@@ -55,6 +113,7 @@ class _AddSlotsState extends State<AddSlots> {
       ),
     ];
   }
+  
 
   @override
   Widget build(BuildContext ctx) {
@@ -145,13 +204,14 @@ class _AddSlotsState extends State<AddSlots> {
                       borderSide: BorderSide(),
                     ),
                   ),
-                  onChanged: (phone) {
-                    print(phone.completeNumber);
-                  },
-                  onCountryChanged: (phone) {
-                    print('Country code changed to: ' + phone.countryCode.toString());
-                  },
-                ),
+                  onChanged: (phoneNumber) {
+                      setState(() {
+                        phone = phoneNumber.completeNumber;
+                      });
+                  onCountryChanged: (phoneNumber) {
+                    print('Country code changed to: ' + phoneNumber.countryCode.toString());
+                  };
+                  }),
                   ),
                 ),
     
@@ -197,6 +257,7 @@ class _AddSlotsState extends State<AddSlots> {
                         border: InputBorder.none,
                         labelText: 'Upload Aadhar Image',
                         prefixIcon: Icon(Icons.image),
+                       
                         //hintText: _aadharPic != null ? "aadhar.jpg" : " ",
                       ),
                       onTap: () async {
@@ -207,6 +268,11 @@ class _AddSlotsState extends State<AddSlots> {
                         _aadharPic = file;
                       },
                       readOnly: true,
+                      validator: (value) {
+                        if(value == null)
+                        return "We request you to submit your adhar card";
+                        else return null;
+                      }
                     ),
                   ),
                 ),
@@ -235,8 +301,14 @@ class _AddSlotsState extends State<AddSlots> {
                             await _picker.getImage(source: ImageSource.gallery);
                         final File file = File(image!.path);
                         _productPic = file;
+                        
                       },
                       readOnly: true,
+                      validator: (value) {
+                        if(value == null)
+                        return "We request you to submit a product picture";
+                        else return null;
+                      }
                     ),
                   ),
                 ),
@@ -354,6 +426,51 @@ class _AddSlotsState extends State<AddSlots> {
                           elevation: MaterialStateProperty.all(0.00),
                         ),
                         onPressed: () async {
+                          showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                      backgroundColor: secondary,
+                                      content: Container(
+                                        height: UIConstants.fitToHeight(
+                                            100, context),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            Text(
+                                              "Enter the Verification Code",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),),
+                                                  OTPTextField(
+                                                  length: 6,
+                                                  width: MediaQuery.of(context).size.width,
+                                                  fieldWidth: 30,
+                                                  style: TextStyle(fontSize: 20),
+                                                  textFieldAlignment: MainAxisAlignment.spaceAround,
+                                                  fieldStyle: FieldStyle.underline,
+                                                  onCompleted: (pin) {
+                                                  verifyPin(pin);
+                                                                                  } ,
+                                                      ),
+                                                      SizedBox(
+                                              height: 10,
+                                            ),
+                                            ElevatedButton(
+                                                onPressed: () {
+                                                  verifyPhone();
+                                                },
+                                                child: Text("Verify"))
+
+                                            ,
+                                
+                                          ],
+                                        ),
+                                      ));
+                                      
+                                });
                           // Validate returns true if the form is valid, or false otherwise.
                           if (_formKey.currentState!.validate()) {
                             // If the form is valid, display a snackbar
@@ -392,6 +509,7 @@ class _AddSlotsState extends State<AddSlots> {
                             });
                           }
                         },
+                        
                         child: Text('Next'),
                       ),
                     ],
@@ -464,6 +582,7 @@ class _AddSlotsState extends State<AddSlots> {
         print(uploadProductTask.snapshot);
 
         print(e.toString());
+        
       }
       //   }
       // }
@@ -475,6 +594,9 @@ class _AddSlotsState extends State<AddSlots> {
       //Uri location = (await uploadTask.future).getDownloadURL();
 
       //returns the download url
-   }
+      
+   
   }
 }
+   }
+   

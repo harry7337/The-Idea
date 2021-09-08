@@ -176,10 +176,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                                   style: TextStyle(
                                                       color: Colors.black),
                                                 ),
-                                                onPressed: () => Navigator.of(
-                                                        context)
-                                                    .popAndPushNamed(
-                                                        Register.routeName)),
+                                                onPressed: () =>
+                                                    Navigator.of(context)
+                                                        .popAndPushNamed(
+                                                            RegisterBuyer
+                                                                .routeName)),
                                             RaisedButton(
                                                 color: primary,
                                                 child: Text(

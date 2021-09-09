@@ -11,17 +11,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final users = FirebaseFirestore.instance
-      .collection('users')
-      .doc(FirebaseAuth.instance.currentUser!.uid);
-
-  var isSeller;
-  @override
-  void initState() async {
-    super.initState();
-    isSeller = await users.get().then<bool>((value) => value.data()!['roles']);
-  }
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -30,9 +19,7 @@ class _MainScreenState extends State<MainScreen> {
         appBar: AppBar(),
         body: SingleChildScrollView(
           child: Center(
-            child: isSeller == null
-                ? Text('Welcome ${isSeller ? 'Seller' : 'Buyer'}')
-                : Text('Welcome Guest'),
+            child: Text('Welcome User!'),
           ),
         ),
       ),

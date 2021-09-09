@@ -1,4 +1,5 @@
 import 'package:bizgram/constants/UIconstants.dart';
+import 'package:bizgram/screen/authenticate/phone_signin.dart';
 import 'package:bizgram/screen/authenticate/seller_signup.dart';
 import 'package:bizgram/screen/home/MainScreen.dart';
 import 'package:bizgram/services/auth.dart';
@@ -198,6 +199,23 @@ class _RegisterState extends State<Register> {
                             ],
                           ),
                           onPressed: () => widget.toggleViewParameter(),
+                        ),
+
+                        //phone sign in button
+                        MaterialButton(
+                          elevation: 0,
+                          height: UIConstants.fitToHeight(25, context),
+                          color: Colors.green[200],
+                          child: Text(
+                            "Sign In With Phone",
+                            style: TextStyle(color: Colors.black, fontSize: 14),
+                          ),
+                          onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => PhoneSignIn(),
+                            ),
+                          ),
                         ),
                       ],
                     ),

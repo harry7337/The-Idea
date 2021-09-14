@@ -3,10 +3,10 @@
 3    package="io.flutter.plugins.googlesignin" >
 4
 5    <uses-sdk android:minSdkVersion="16" />
-5-->/media/harry16614/a8f585da-21f4-4205-ac71-85069ee75f47/harry16614/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in-5.0.7/android/src/main/AndroidManifest.xml
+5-->C:\Users\91819\Documents\flutter\flutter\.pub-cache\hosted\pub.dartlang.org\google_sign_in-5.0.7\android\src\main\AndroidManifest.xml
 6
 7    <uses-permission android:name="android.permission.INTERNET" />
-7-->/media/harry16614/a8f585da-21f4-4205-ac71-85069ee75f47/harry16614/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in-5.0.7/android/src/main/AndroidManifest.xml:4:3-64
-7-->/media/harry16614/a8f585da-21f4-4205-ac71-85069ee75f47/harry16614/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in-5.0.7/android/src/main/AndroidManifest.xml:4:20-62
+7-->C:\Users\91819\Documents\flutter\flutter\.pub-cache\hosted\pub.dartlang.org\google_sign_in-5.0.7\android\src\main\AndroidManifest.xml:4:3-64
+7-->C:\Users\91819\Documents\flutter\flutter\.pub-cache\hosted\pub.dartlang.org\google_sign_in-5.0.7\android\src\main\AndroidManifest.xml:4:20-62
 8
 9</manifest>

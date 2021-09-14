@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/media/harry16614/a8f585da-21f4-4205-ac71-85069ee75f47/harry16614/projects/The-Idea/bizgram/build/google_sign_in/intermediates/res/merged/debug/values-watch-v20/values-watch-v20.xml",
+            "outputFile": "C:\\Users\\91819\\The-Idea\\bizgram\\build\\google_sign_in\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-watch-v20\\values-watch-v20.xml",
             "map": [
                 {
-                    "source": "/home/harry16614/.gradle/caches/transforms-2/files-2.1/6191cca29dd1013cb084d9aa8e382fb2/jetified-play-services-auth-16.0.1/res/values-watch-v20/values.xml",
+                    "source": "C:\\Users\\91819\\.gradle\\caches\\transforms-2\\files-2.1\\fed32548fd66f850e7938d08dd76733d\\jetified-play-services-auth-16.0.1\\res\\values-watch-v20\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11",
                         "startColumns": "0,0,0,0,0,0,0,0",
@@ -23,10 +23,10 @@
             ]
         },
         {
-            "outputFile": "/media/harry16614/a8f585da-21f4-4205-ac71-85069ee75f47/harry16614/projects/The-Idea/bizgram/build/google_sign_in/intermediates/incremental/mergeDebugResources/merged.dir/values-watch-v20/values-watch-v20.xml",
+            "outputFile": "C:\\Users\\91819\\The-Idea\\bizgram\\build\\google_sign_in\\intermediates\\res\\merged\\debug\\values-watch-v20\\values-watch-v20.xml",
             "map": [
                 {
-                    "source": "/home/harry16614/.gradle/caches/transforms-2/files-2.1/6191cca29dd1013cb084d9aa8e382fb2/jetified-play-services-auth-16.0.1/res/values-watch-v20/values.xml",
+                    "source": "C:\\Users\\91819\\.gradle\\caches\\transforms-2\\files-2.1\\fed32548fd66f850e7938d08dd76733d\\jetified-play-services-auth-16.0.1\\res\\values-watch-v20\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11",
                         "startColumns": "0,0,0,0,0,0,0,0",

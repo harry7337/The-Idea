@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/media/harry16614/a8f585da-21f4-4205-ac71-85069ee75f47/harry16614/projects/The-Idea/bizgram/build/google_sign_in/intermediates/res/merged/debug/values-sr/values-sr.xml",
+            "outputFile": "C:\\Users\\91819\\The-Idea\\bizgram\\build\\google_sign_in\\intermediates\\res\\merged\\debug\\values-sr\\values-sr.xml",
             "map": [
                 {
-                    "source": "/home/harry16614/.gradle/caches/transforms-2/files-2.1/aec67007c7d207346485a0570a3d1e6d/jetified-play-services-base-16.0.1/res/values-sr/values.xml",
+                    "source": "C:\\Users\\91819\\.gradle\\caches\\transforms-2\\files-2.1\\e7cc6f9cc2bbca757086a9f41a183e4c\\jetified-play-services-base-16.0.1\\res\\values-sr\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "/home/harry16614/.gradle/caches/transforms-2/files-2.1/2b12611e1fdd21d9b51ee6b95e4405ad/jetified-play-services-basement-16.0.1/res/values-sr/values.xml",
+                    "source": "C:\\Users\\91819\\.gradle\\caches\\transforms-2\\files-2.1\\5a7f64add87bb92bafe6d824185a8199\\jetified-play-services-basement-16.0.1\\res\\values-sr\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -38,7 +38,7 @@
                     }
                 },
                 {
-                    "source": "/home/harry16614/.gradle/caches/transforms-2/files-2.1/3c8fd1bfddb99a7a7e21faa1397acdb4/core-1.1.0/res/values-sr/values-sr.xml",
+                    "source": "C:\\Users\\91819\\.gradle\\caches\\transforms-2\\files-2.1\\3c8fd1bfddb99a7a7e21faa1397acdb4\\core-1.1.0\\res\\values-sr\\values-sr.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -57,10 +57,10 @@
             ]
         },
         {
-            "outputFile": "/media/harry16614/a8f585da-21f4-4205-ac71-85069ee75f47/harry16614/projects/The-Idea/bizgram/build/google_sign_in/intermediates/incremental/mergeDebugResources/merged.dir/values-sr/values-sr.xml",
+            "outputFile": "C:\\Users\\91819\\The-Idea\\bizgram\\build\\google_sign_in\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-sr\\values-sr.xml",
             "map": [
                 {
-                    "source": "/home/harry16614/.gradle/caches/transforms-2/files-2.1/aec67007c7d207346485a0570a3d1e6d/jetified-play-services-base-16.0.1/res/values-sr/values.xml",
+                    "source": "C:\\Users\\91819\\.gradle\\caches\\transforms-2\\files-2.1\\e7cc6f9cc2bbca757086a9f41a183e4c\\jetified-play-services-base-16.0.1\\res\\values-sr\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -77,7 +77,7 @@
                     }
                 },
                 {
-                    "source": "/home/harry16614/.gradle/caches/transforms-2/files-2.1/2b12611e1fdd21d9b51ee6b95e4405ad/jetified-play-services-basement-16.0.1/res/values-sr/values.xml",
+                    "source": "C:\\Users\\91819\\.gradle\\caches\\transforms-2\\files-2.1\\5a7f64add87bb92bafe6d824185a8199\\jetified-play-services-basement-16.0.1\\res\\values-sr\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -94,7 +94,7 @@
                     }
                 },
                 {
-                    "source": "/home/harry16614/.gradle/caches/transforms-2/files-2.1/3c8fd1bfddb99a7a7e21faa1397acdb4/core-1.1.0/res/values-sr/values-sr.xml",
+                    "source": "C:\\Users\\91819\\.gradle\\caches\\transforms-2\\files-2.1\\3c8fd1bfddb99a7a7e21faa1397acdb4\\core-1.1.0\\res\\values-sr\\values-sr.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

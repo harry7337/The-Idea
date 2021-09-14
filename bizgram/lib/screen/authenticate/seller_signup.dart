@@ -17,6 +17,7 @@ enum MobileVerificationState {
 }
 
 class AddSlots extends StatefulWidget {
+  static const routeName = './/';
   @override
   _AddSlotsState createState() => _AddSlotsState();
 }
@@ -36,8 +37,8 @@ class _AddSlotsState extends State<AddSlots> {
   int resendToken = 0;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   FirebaseAuth _auth = FirebaseAuth.instance;
-  final uid = FirebaseAuth.instance.currentUser!.uid;
-  final emailID = FirebaseAuth.instance.currentUser!.email;
+  final uid = FirebaseAuth.instance.currentUser?.uid;
+  final emailID = FirebaseAuth.instance.currentUser?.email;
   final _picker = ImagePicker();
   final _formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();

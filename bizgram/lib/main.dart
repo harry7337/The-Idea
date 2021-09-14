@@ -27,7 +27,9 @@ class MyApp extends StatelessWidget {
         Wrapper.routeName: (ctx) => Wrapper(
               showSignUp: true,
             ),
-        RegisterBuyer.routeName: (ctx) => RegisterBuyer(),
+        BuyerSlots.routeName: (ctx) => BuyerSlots(),
+        AddSlots.routeName: (ctx) => AddSlots(),
+
       },
     );
   }

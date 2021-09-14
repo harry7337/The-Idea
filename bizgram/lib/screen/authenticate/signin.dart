@@ -179,8 +179,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 onPressed: () =>
                                                     Navigator.of(context)
                                                         .popAndPushNamed(
-                                                            RegisterBuyer
-                                                                .routeName)),
+                                                            
+                                                                BuyerSlots.routeName)),
                                             RaisedButton(
                                                 color: primary,
                                                 child: Text(

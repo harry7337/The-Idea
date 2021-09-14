@@ -1,14 +1,10 @@
-<<<<<<< HEAD
-#Mon Sep 06 11:02:46 IST 2021
-=======
-#Sun Sep 05 10:39:35 IST 2021
->>>>>>> 3a51d9dd50bd1589289921b71ad750a08511d50a
+#Tue Sep 14 22:32:47 IST 2021
 path.2=classes3.dex
 path.1=classes2.dex
 path.0=classes.dex
 renamed.2=classes3.dex
 renamed.1=classes2.dex
 renamed.0=classes.dex
-base.2=/media/harry16614/a8f585da-21f4-4205-ac71-85069ee75f47/harry16614/projects/The-Idea/bizgram/build/app/intermediates/dex/debug/mergeDexDebug/classes3.dex
-base.1=/media/harry16614/a8f585da-21f4-4205-ac71-85069ee75f47/harry16614/projects/The-Idea/bizgram/build/app/intermediates/dex/debug/mergeDexDebug/classes2.dex
-base.0=/media/harry16614/a8f585da-21f4-4205-ac71-85069ee75f47/harry16614/projects/The-Idea/bizgram/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
+base.2=C\:\\Users\\91819\\The-Idea\\bizgram\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes3.dex
+base.1=C\:\\Users\\91819\\The-Idea\\bizgram\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes2.dex
+base.0=C\:\\Users\\91819\\The-Idea\\bizgram\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex

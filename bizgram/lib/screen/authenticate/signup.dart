@@ -1,4 +1,7 @@
 import 'package:bizgram/constants/UIconstants.dart';
+import 'package:bizgram/screen/authenticate/BuyerWithGoogle.dart';
+import 'package:bizgram/screen/authenticate/Seller_signupWithEmail.dart';
+import 'package:bizgram/screen/authenticate/buyer_signup.dart';
 import 'package:bizgram/screen/authenticate/phone_signin.dart';
 import 'package:bizgram/screen/authenticate/seller_signup.dart';
 import 'package:bizgram/screen/home/MainScreen.dart';
@@ -6,6 +9,7 @@ import 'package:bizgram/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'Seller_signupWithEmail.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bizgram/services/auth.dart';
 import 'package:bizgram/screen/shared/loading.dart';
@@ -58,7 +62,169 @@ class _RegisterState extends State<Register> {
                           color: Colors.black, fontSize: 28),
                     ),
                     SizedBox(height: UIConstants.fitToHeight(20, context)),
-                    Text(
+                   FlatButton(
+                     child: Text("I want a buyer profile"),
+                     onPressed: ()   =>showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    backgroundColor: secondary,
+                                    content: Container(
+                                      height: UIConstants.fitToHeight(200, context),
+                                      child: Column(
+
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: <Widget>[
+                                           MaterialButton(
+                      elevation: 0,
+                      minWidth: double.maxFinite,
+                      height: UIConstants.fitToHeight(50, context),
+                      onPressed: () {
+                        AuthService().signInWithGoogle().then(
+                              (value) => showModalBottomSheet(
+                                isDismissible: false,
+                                isScrollControlled: true,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20),
+                                  ),
+                                ),
+                                context: context,
+                                builder: (ctx) => BuyerGoogleSlots(),
+                              ),
+                            );
+                      },
+                      color: Colors.blue,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(FontAwesomeIcons.google),
+                          SizedBox(width: 10),
+                          Text('Sign-up using Google',
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 16))
+                        ],
+                      ),
+                      textColor: Colors.black,
+                    ),
+                    SizedBox(
+                      height: UIConstants.fitToHeight(20, context),
+                    ),
+                                      MaterialButton(
+                      elevation: 0,
+                      minWidth: double.maxFinite,
+                      height: UIConstants.fitToHeight(50, context),
+                      onPressed: () {
+                        AuthService().registerWithEmailAndPassword(
+                            nameController.text, passwordController.text);
+                        showModalBottomSheet(
+                          isDismissible: false,
+                          isScrollControlled: true,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                            ),
+                          ),
+                          context: context,
+                          builder: (ctx) => BuyerSlots(),
+                        );
+                      },
+                      color: logo,
+                      child: Text('Sign Up',
+                          style: TextStyle(color: Colors.black, fontSize: 16)),
+                      textColor: Colors.black,
+                    ),
+                    SizedBox(height: UIConstants.fitToHeight(20, context)),
+
+                                      ],),
+                                    ),
+                                   );})),
+                    SizedBox(
+                      height: UIConstants.fitToHeight(20, context),
+                    ),
+                     SizedBox(height: UIConstants.fitToHeight(30, context),),
+                    FlatButton
+                    (child: Text("I want a seller profile"),
+                      onPressed:  () =>  showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                    return AlertDialog(
+                                    backgroundColor: secondary,
+                                    content: Container(
+                                      height: UIConstants.fitToHeight(200, context),
+                                      child: Column(
+
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: <Widget>[
+                                           MaterialButton(
+                      elevation: 0,
+                      minWidth: double.maxFinite,
+                      height: UIConstants.fitToHeight(50, context),
+                      onPressed: () {
+                        AuthService().signInWithGoogle().then(
+                              (value) => showModalBottomSheet(
+                                isDismissible: false,
+                                isScrollControlled: true,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20),
+                                  ),
+                                ),
+                                context: context,
+                                builder: (ctx) => AddSlots(),
+                              ),
+                            );
+                      },
+                      color: Colors.blue,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(FontAwesomeIcons.google),
+                          SizedBox(width: 10),
+                          Text('Sign-up using Google',
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 16))
+                        ],
+                      ),
+                      textColor: Colors.black,
+                    ),
+                    SizedBox(
+                      height: UIConstants.fitToHeight(20, context),
+                    ),
+                                      MaterialButton(
+                      elevation: 0,
+                      minWidth: double.maxFinite,
+                      height: UIConstants.fitToHeight(50, context),
+                      onPressed: () {
+                        AuthService().registerWithEmailAndPassword(
+                            nameController.text, passwordController.text);
+                        showModalBottomSheet(
+                          isDismissible: false,
+                          isScrollControlled: true,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                            ),
+                          ),
+                          context: context,
+                          builder: (ctx) => AddSlotEmail(),
+                        );
+                      },
+                      color: logo,
+                      child: Text('Sign Up',
+                          style: TextStyle(color: Colors.black, fontSize: 16)),
+                      textColor: Colors.black,
+                    ),
+                    SizedBox(height: UIConstants.fitToHeight(20, context)),
+
+                                      ],),
+                                    ),
+                                   );})),]))));
+                   /* Text(
                       'Enter your email and password below',
                       textAlign: TextAlign.center,
                       style: GoogleFonts.openSans(
@@ -333,4 +499,4 @@ class _RegisterState extends State<Register> {
       isHidden = !isHidden;
     });
   }
-}
+}*/}}

@@ -6,20 +6,20 @@
 6    <uses-sdk android:minSdkVersion="16" />
 7
 8    <application
-8-->/media/harry16614/a8f585da-21f4-4205-ac71-85069ee75f47/harry16614/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_functions-1.1.2/android/src/main/AndroidManifest.xml:3:5-8:19
+8-->/home/harry16614/.pub-cache/hosted/pub.dartlang.org/cloud_functions-1.1.2/android/src/main/AndroidManifest.xml:3:5-8:19
 9        android:usesCleartextTraffic="true"
-9-->/media/harry16614/a8f585da-21f4-4205-ac71-85069ee75f47/harry16614/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_functions-1.1.2/android/src/debug/AndroidManifest.xml:5:16-51
+9-->/home/harry16614/.pub-cache/hosted/pub.dartlang.org/cloud_functions-1.1.2/android/src/debug/AndroidManifest.xml:5:16-51
 10        tools:ignore="UnusedAttribute" >
-10-->/media/harry16614/a8f585da-21f4-4205-ac71-85069ee75f47/harry16614/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_functions-1.1.2/android/src/debug/AndroidManifest.xml:6:5-35
+10-->/home/harry16614/.pub-cache/hosted/pub.dartlang.org/cloud_functions-1.1.2/android/src/debug/AndroidManifest.xml:6:5-35
 11        <service android:name="com.google.firebase.components.ComponentDiscoveryService" >
-11-->/media/harry16614/a8f585da-21f4-4205-ac71-85069ee75f47/harry16614/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_functions-1.1.2/android/src/main/AndroidManifest.xml:4:9-7:19
-11-->/media/harry16614/a8f585da-21f4-4205-ac71-85069ee75f47/harry16614/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_functions-1.1.2/android/src/main/AndroidManifest.xml:4:18-89
+11-->/home/harry16614/.pub-cache/hosted/pub.dartlang.org/cloud_functions-1.1.2/android/src/main/AndroidManifest.xml:4:9-7:19
+11-->/home/harry16614/.pub-cache/hosted/pub.dartlang.org/cloud_functions-1.1.2/android/src/main/AndroidManifest.xml:4:18-89
 12            <meta-data
-12-->/media/harry16614/a8f585da-21f4-4205-ac71-85069ee75f47/harry16614/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_functions-1.1.2/android/src/main/AndroidManifest.xml:5:13-6:92
+12-->/home/harry16614/.pub-cache/hosted/pub.dartlang.org/cloud_functions-1.1.2/android/src/main/AndroidManifest.xml:5:13-6:92
 13                android:name="com.google.firebase.components:io.flutter.plugins.firebase.functions.FlutterFirebaseAppRegistrar"
-13-->/media/harry16614/a8f585da-21f4-4205-ac71-85069ee75f47/harry16614/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_functions-1.1.2/android/src/main/AndroidManifest.xml:5:24-135
+13-->/home/harry16614/.pub-cache/hosted/pub.dartlang.org/cloud_functions-1.1.2/android/src/main/AndroidManifest.xml:5:24-135
 14                android:value="com.google.firebase.components.ComponentRegistrar" />
-14-->/media/harry16614/a8f585da-21f4-4205-ac71-85069ee75f47/harry16614/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_functions-1.1.2/android/src/main/AndroidManifest.xml:6:24-89
+14-->/home/harry16614/.pub-cache/hosted/pub.dartlang.org/cloud_functions-1.1.2/android/src/main/AndroidManifest.xml:6:24-89
 15        </service>
 16    </application>
 17

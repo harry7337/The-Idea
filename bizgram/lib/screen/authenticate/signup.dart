@@ -3,7 +3,7 @@ import 'package:bizgram/screen/authenticate/BuyerWithGoogle.dart';
 import 'package:bizgram/screen/authenticate/Seller_signupWithEmail.dart';
 import 'package:bizgram/screen/authenticate/buyer_signup.dart';
 import 'package:bizgram/screen/authenticate/phone_signin.dart';
-import 'package:bizgram/screen/authenticate/seller_signup.dart';
+import 'package:bizgram/screen/authenticate/GoogleSellerSignUp.dart';
 import 'package:bizgram/screen/home/MainScreen.dart';
 import 'package:bizgram/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -203,7 +203,7 @@ class _RegisterState extends State<Register> {
                                                     ),
                                                     context: context,
                                                     builder: (ctx) =>
-                                                        AddSlots(),
+                                                        GoogleSellerSignUp(),
                                                   ),
                                                 );
                                           },
@@ -246,7 +246,7 @@ class _RegisterState extends State<Register> {
                                                 ),
                                               ),
                                               context: context,
-                                              builder: (ctx) => AddSlotEmail(),
+                                              builder: (ctx) => SellerSignUp(),
                                             );
                                           },
                                           color: logo,

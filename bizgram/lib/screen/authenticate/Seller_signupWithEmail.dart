@@ -21,16 +21,16 @@ enum MobileVerificationState {
   SHOW_OTP_FORM_STATE,
 }
 
-class AddSlotEmail extends StatefulWidget {
+class SellerSignUp extends StatefulWidget {
   static const routeName = './/';
   @override
-  _AddSlotEmailState createState() => _AddSlotEmailState();
+  _SellerSignUpState createState() => _SellerSignUpState();
 }
 
 //TODO: beautify screen a bit more
 //TODO: add loading widget when uploading data
 //TODO: add separate screen for seller and buyer sign up and then change userPrivileages() in authservice class
-class _AddSlotEmailState extends State<AddSlotEmail> {
+class _SellerSignUpState extends State<SellerSignUp> {
   MobileVerificationState currentState =
       MobileVerificationState.SHOW_MOBILE_FORM_STATE;
   Color primary = Color.fromRGBO(245, 245, 220, 20);
@@ -580,33 +580,36 @@ class _AddSlotEmailState extends State<AddSlotEmail> {
                                   COD: _cod,
                                   worldwide: _worldwide);
 
-                              await UpdateDoc(seller: seller).update().then(
-                                  (_) {
-                                ScaffoldMessenger.of(ctx).showSnackBar(
-                                  SnackBar(
-                                    content: Text('Updated Doc'),
-                                  ),
-                                );
-                                AuthService().sellerPrivileges(user);
-
-                                //go back to wrapper
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => Wrapper(
-                                      showSignUp: false,
+                              await UpdateDoc(seller: seller)
+                                  .update()
+                                  .whenComplete(
+                                () {
+                                  ScaffoldMessenger.of(ctx).showSnackBar(
+                                    SnackBar(
+                                      content: Text('Updated Doc'),
                                     ),
-                                  ),
-                                );
-                                // Navigator.pop(context);
+                                  );
+                                  AuthService().sellerPrivileges(user);
 
-                                //clear field
-                                _clearFields();
-                              }, onError: (_) {
+                                  //go back to wrapper
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => Wrapper(
+                                        showSignUp: false,
+                                      ),
+                                    ),
+                                  );
+                                  // Navigator.pop(context);
+
+                                  //clear field
+                                  _clearFields();
+                                },
+                              ).onError((error, stackTrace) {
                                 ScaffoldMessenger.of(ctx).showSnackBar(
                                   SnackBar(
-                                    content: Text(
-                                        'Something went wrong, please try again.'),
+                                    content: Text('Something went wrong' +
+                                        stackTrace.toString()),
                                   ),
                                 );
                               });

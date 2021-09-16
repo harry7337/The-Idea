@@ -275,7 +275,7 @@ class _BuyerSlotsState extends State<BuyerSlots> {
                                   backgroundColor: secondary,
                                   content: Container(
                                     height:
-                                        UIConstants.fitToHeight(100, context),
+                                        UIConstants.fitToHeight(150, context),
                                     child: PhoneSignIn(
                                         phoneNumber: phone,
                                         displayName: _nameController.text,
@@ -288,13 +288,13 @@ class _BuyerSlotsState extends State<BuyerSlots> {
                           /// This method is used to login the user
                           /// `AuthCredential`(`_phoneAuthCredential`) is needed for the signIn method
                           /// After the signIn method from `AuthResult` we can get `FirebaserUser`(`_firebaseUser`)
+                          var user = await AuthService()
+                              .registerWithEmailAndPassword(
+                                  _emailIDController.text,
+                                  _passwordController.text);
                           try {
                             //FirebaseAuth.instance.signInWithPhoneNumber(_phoneController.text);
                             //var user = await _auth.signInWithCredential(this._phoneAuthCredential);
-                            var user = await AuthService()
-                                .registerWithEmailAndPassword(
-                                    _emailIDController.text,
-                                    _passwordController.text);
 
                             if (user == null) {
                               setState(() {
@@ -329,60 +329,58 @@ class _BuyerSlotsState extends State<BuyerSlots> {
                           } catch (e) {
                             _handleError(e);
                           }
-                          FirebaseAuth.instance
-                              .authStateChanges()
-                              .listen((user) async {
-                            // Validate returns true if the form is valid, or false otherwise.
-                            if (_formKey.currentState!.validate() &&
-                                user != null) {
-                              // If the form is valid, display a snackbar
 
+                          // Validate returns true if the form is valid, or false otherwise.
+                          if (_formKey.currentState!.validate() &&
+                              user != null) {
+                            // If the form is valid, display a snackbar
+
+                            ScaffoldMessenger.of(ctx).showSnackBar(
+                                SnackBar(content: Text('Uploading Data')));
+
+                            BuyerData buyer = new BuyerData(
+                              uid: uid,
+                              displayName: _nameController.text,
+                              address: _addressController.text,
+                              countryCode: _countryCodeController.text,
+                              emailID: _emailIDController.text,
+                              password: _passwordController.text,
+                              phoneNumber: _phoneNumberController.text,
+                            );
+
+                            await UpdateBuyer(buyers: buyer)
+                                .update()
+                                .whenComplete(() {
                               ScaffoldMessenger.of(ctx).showSnackBar(
-                                  SnackBar(content: Text('Uploading Data')));
-
-                              BuyerData buyer = new BuyerData(
-                                uid: uid,
-                                displayName: _nameController.text,
-                                address: _addressController.text,
-                                countryCode: _countryCodeController.text,
-                                emailID: _emailIDController.text,
-                                password: _passwordController.text,
-                                phoneNumber: _phoneNumberController.text,
+                                SnackBar(
+                                  content: Text('Updated Doc'),
+                                ),
                               );
 
-                              await UpdateBuyer(buyers: buyer).update().then(
-                                  (_) {
-                                ScaffoldMessenger.of(ctx).showSnackBar(
-                                  SnackBar(
-                                    content: Text('Updated Doc'),
-                                  ),
-                                );
+                              AuthService().buyerPrivileges(user);
 
-                                AuthService().buyerPrivileges(user);
-
-                                //go back to wrapper
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => Wrapper(
-                                      showSignUp: false,
-                                    ),
+                              //go back to wrapper
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => Wrapper(
+                                    showSignUp: false,
                                   ),
-                                );
-                                // Navigator.pop(context);
+                                ),
+                              );
+                              // Navigator.pop(context);
 
-                                //clear field
-                                _clearFields();
-                              }, onError: (_) {
-                                ScaffoldMessenger.of(ctx).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                        'Something went wrong, please try again.'),
-                                  ),
-                                );
-                              });
-                            }
-                          });
+                              //clear field
+                              _clearFields();
+                            }).onError((error, stackTrace) {
+                              ScaffoldMessenger.of(ctx).showSnackBar(
+                                SnackBar(
+                                  content: Text('Something went wrong,.' +
+                                      stackTrace.toString()),
+                                ),
+                              );
+                            });
+                          }
                         },
                         child: Text('Next'),
                       ),

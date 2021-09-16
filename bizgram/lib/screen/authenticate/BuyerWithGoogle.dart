@@ -1,7 +1,10 @@
 import 'dart:io';
 import 'package:bizgram/constants/UIconstants.dart';
+import 'package:bizgram/screen/authenticate/google_phone_signin.dart';
+import 'package:bizgram/screen/authenticate/phone_signin.dart';
 import 'package:bizgram/screen/home/getting_started.dart';
 import 'package:bizgram/services/AddBuyer.dart';
+import 'package:bizgram/services/auth.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:bizgram/models/seller.dart';
 import 'package:bizgram/services/update_doc.dart';
@@ -13,6 +16,9 @@ import 'package:flutter/material.dart';
 import 'package:bizgram/models/buyer.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+
+import '../wrapper.dart';
+
 enum MobileVerificationState {
   SHOW_MOBILE_FORM_STATE,
   SHOW_OTP_FORM_STATE,
@@ -24,12 +30,11 @@ class BuyerGoogleSlots extends StatefulWidget {
   _BuyerGoogleSlotsState createState() => _BuyerGoogleSlotsState();
 }
 
-
 //TODO: beautify screen a bit more
 //TODO: add loading widget when uploading data
 //TODO: add separate screen for seller and buyer sign up and then change userPrivileages() in authservice class
 class _BuyerGoogleSlotsState extends State<BuyerGoogleSlots> {
-   Color primary = Color.fromRGBO(245, 245, 220, 20);
+  Color primary = Color.fromRGBO(245, 245, 220, 20);
   Color secondary = Color.fromRGBO(255, 218, 185, 20);
   Color logo = Color.fromRGBO(128, 117, 90, 60);
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -46,13 +51,12 @@ class _BuyerGoogleSlotsState extends State<BuyerGoogleSlots> {
   final _phoneNumberController = TextEditingController();
   final otpController = TextEditingController();
   final pass = TextEditingController();
-   String phone="";
+  String phone = "";
   bool showLoading = false;
-      
+
   //final List<File?> _productPic = [];
 
   DateTime selectedDate = DateTime.now();
-
 
   @override
   Widget build(BuildContext ctx) {
@@ -71,8 +75,13 @@ class _BuyerGoogleSlotsState extends State<BuyerGoogleSlots> {
             key: _formKey,
             child: ListView(
               children: [
-                Text("Hello there, Sign Up to buy amazing products!",style: TextStyle(fontSize: 28,fontWeight: FontWeight.bold),),
-                Text("Tell us more about you!",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold)),
+                Text(
+                  "Hello there, Sign Up to buy amazing products!",
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                ),
+                Text("Tell us more about you!",
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 //display name
                 Padding(
                   padding: const EdgeInsets.all(10.0),
@@ -98,35 +107,11 @@ class _BuyerGoogleSlotsState extends State<BuyerGoogleSlots> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Container(
-                    padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: Colors.black)),
-                    child: TextFormField(
-                      keyboardType: TextInputType.name,
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                        border: InputBorder.none,
-                        prefixIcon: Icon(Icons.person),
-                      ),
-                      controller: pass,
-                      validator: (value) {
-                        if (value == null || value.isEmpty || value.length < 8 ) {
-                          return 'Please enter a password';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                ),
-                 
+
                 //address
                 Padding(
-                  padding:
-                      EdgeInsets.only(top: 10.0, bottom: 10, left: 10, right: 10),
+                  padding: EdgeInsets.only(
+                      top: 10.0, bottom: 10, left: 10, right: 10),
                   child: Container(
                     padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
                     decoration: BoxDecoration(
@@ -149,25 +134,25 @@ class _BuyerGoogleSlotsState extends State<BuyerGoogleSlots> {
                     ),
                   ),
                 ),
-    
+
                 //contact number
                 //TODO: add country code
                 Padding(
-                  padding:
-                      EdgeInsets.only(top: 10.0, right: 10, left: 10, bottom: 10),
+                  padding: EdgeInsets.only(
+                      top: 10.0, right: 10, left: 10, bottom: 10),
                   child: Container(
                     padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         border: Border.all(color: Colors.black)),
-                    child:     IntlPhoneField(
-                  decoration: InputDecoration(
-                    labelText: 'Phone Number',
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(),
-                    ),
-                  ),
-                  onChanged: (phoneNumber) {
+                    child: IntlPhoneField(
+                        decoration: InputDecoration(
+                          labelText: 'Phone Number',
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(),
+                          ),
+                        ),
+                        onChanged: (phoneNumber) {
                           setState(() {
                             phone = phoneNumber.countryCode! + " ";
                             phone += phoneNumber.number!;
@@ -180,19 +165,19 @@ class _BuyerGoogleSlotsState extends State<BuyerGoogleSlots> {
                         }),
                   ),
                 ),
-    
+
                 //pan number
                 //TODO: Add pan number check
-               
+
                 //upload aadhar image
                 //TODO: handle error when pic is not selected
-                
+
                 //upload product image(s)
                 //TODO: handle error when pic is not selected
                 //TODO: add functionality to select multiple pictures
-                
+
                 //worldwide
-               
+
                 //create event button and cancel buttom
                 SizedBox(
                   height: 100,
@@ -236,14 +221,14 @@ class _BuyerGoogleSlotsState extends State<BuyerGoogleSlots> {
                         style: ButtonStyle(
                             elevation: MaterialStateProperty.all(0.00)),
                       ),
-    
+
                       //clear field button
                       TextButton(
                         onPressed: _clearFields,
                         child: Text('Clear Fields'),
                       ),
-    
-                     //next button
+
+                      //next button
                       ElevatedButton(
                         style: ButtonStyle(
                           elevation: MaterialStateProperty.all(0.00),
@@ -256,12 +241,12 @@ class _BuyerGoogleSlotsState extends State<BuyerGoogleSlots> {
                                   backgroundColor: secondary,
                                   content: Container(
                                     height:
-                                        UIConstants.fitToHeight(100, context),
-                                    child: PhoneSignIn(
-                                        phoneNumber: phone,
-                                        displayName: _nameController.text,
-                                        email: _emailIDController.text,
-                                        password: _passwordController.text),
+                                        UIConstants.fitToHeight(150, context),
+                                    child: GooglePhoneSignIn(
+                                      phoneNumber: phone,
+                                      displayName: _nameController.text,
+                                      email: _emailIDController.text,
+                                    ),
                                   ),
                                 );
                               });
@@ -269,13 +254,10 @@ class _BuyerGoogleSlotsState extends State<BuyerGoogleSlots> {
                           /// This method is used to login the user
                           /// `AuthCredential`(`_phoneAuthCredential`) is needed for the signIn method
                           /// After the signIn method from `AuthResult` we can get `FirebaserUser`(`_firebaseUser`)
+                          var user = await AuthService().signInWithGoogle();
                           try {
                             //FirebaseAuth.instance.signInWithPhoneNumber(_phoneController.text);
                             //var user = await _auth.signInWithCredential(this._phoneAuthCredential);
-                            var user = await AuthService()
-                                .registerWithEmailAndPassword(
-                                    _emailIDController.text,
-                                    _passwordController.text);
 
                             if (user == null) {
                               setState(() {
@@ -310,60 +292,56 @@ class _BuyerGoogleSlotsState extends State<BuyerGoogleSlots> {
                           } catch (e) {
                             _handleError(e);
                           }
-                          FirebaseAuth.instance
-                              .authStateChanges()
-                              .listen((user) async {
-                            // Validate returns true if the form is valid, or false otherwise.
-                            if (_formKey.currentState!.validate() &&
-                                user != null) {
-                              // If the form is valid, display a snackbar
 
+                          // Validate returns true if the form is valid, or false otherwise.
+                          if (_formKey.currentState!.validate() &&
+                              user != null) {
+                            // If the form is valid, display a snackbar
+
+                            ScaffoldMessenger.of(ctx).showSnackBar(
+                                SnackBar(content: Text('Uploading Data')));
+
+                            BuyerData buyer = new BuyerData(
+                              uid: uid,
+                              displayName: _nameController.text,
+                              address: _addressController.text,
+                              countryCode: _countryCodeController.text,
+                              emailID: _emailIDController.text,
+                              password: "",
+                              phoneNumber: _phoneNumberController.text,
+                            );
+
+                            await UpdateBuyer(buyers: buyer).update().then((_) {
                               ScaffoldMessenger.of(ctx).showSnackBar(
-                                  SnackBar(content: Text('Uploading Data')));
-
-                              BuyerData buyer = new BuyerData(
-                                uid: uid,
-                                displayName: _nameController.text,
-                                address: _addressController.text,
-                                countryCode: _countryCodeController.text,
-                                emailID: _emailIDController.text,
-                                password: _passwordController.text,
-                                phoneNumber: _phoneNumberController.text,
+                                SnackBar(
+                                  content: Text('Updated Doc'),
+                                ),
                               );
 
-                              await UpdateBuyer(buyers: buyer).update().then(
-                                  (_) {
-                                ScaffoldMessenger.of(ctx).showSnackBar(
-                                  SnackBar(
-                                    content: Text('Updated Doc'),
-                                  ),
-                                );
+                              AuthService().buyerPrivileges(user);
 
-                                AuthService().buyerPrivileges(user);
-
-                                //go back to wrapper
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => Wrapper(
-                                      showSignUp: false,
-                                    ),
+                              //go back to wrapper
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => Wrapper(
+                                    showSignUp: false,
                                   ),
-                                );
-                                // Navigator.pop(context);
+                                ),
+                              );
+                              // Navigator.pop(context);
 
-                                //clear field
-                                _clearFields();
-                              }, onError: (_) {
-                                ScaffoldMessenger.of(ctx).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                        'Something went wrong, please try again.'),
-                                  ),
-                                );
-                              });
-                            }
-                          });
+                              //clear field
+                              _clearFields();
+                            }, onError: (_) {
+                              ScaffoldMessenger.of(ctx).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                      'Something went wrong, please try again.'),
+                                ),
+                              );
+                            });
+                          }
                         },
                         child: Text('Next'),
                       ),
@@ -387,19 +365,26 @@ class _BuyerGoogleSlotsState extends State<BuyerGoogleSlots> {
     pass.clear();
   }
 
-  
-      // }
-      // var url = await uploadTask.then((snapshot) {
-      //   return snapshot.ref.getDownloadURL();
-      // });
-
-      // Waits till the file is uploaded then stores the download url
-      //Uri location = (await uploadTask.future).getDownloadURL();
-
-      //returns the download url
-      
-   
+  void _handleError(e) {
+    print(e.message);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("${e.message}"),
+      ),
+    );
+    // setState(() {
+    //   loading = false;
+    //   _reset();
+    // });
   }
+  // }
+  // var url = await uploadTask.then((snapshot) {
+  //   return snapshot.ref.getDownloadURL();
+  // });
 
-   
-   
+  // Waits till the file is uploaded then stores the download url
+  //Uri location = (await uploadTask.future).getDownloadURL();
+
+  //returns the download url
+
+}

@@ -1,5 +1,5 @@
 import 'package:bizgram/screen/authenticate/buyer_signup.dart';
-import 'package:bizgram/screen/authenticate/seller_signup.dart';
+import 'package:bizgram/screen/authenticate/GoogleSellerSignUp.dart';
 import 'package:bizgram/screen/authenticate/signin.dart';
 import 'package:bizgram/screen/authenticate/signup.dart';
 import 'package:bizgram/screen/home/getting_started.dart';
@@ -28,8 +28,7 @@ class MyApp extends StatelessWidget {
               showSignUp: true,
             ),
         BuyerSlots.routeName: (ctx) => BuyerSlots(),
-        AddSlots.routeName: (ctx) => AddSlots(),
-
+        GoogleSellerSignUp.routeName: (ctx) => GoogleSellerSignUp(),
       },
     );
   }

@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:bizgram/models/buyer.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+
 enum MobileVerificationState {
   SHOW_MOBILE_FORM_STATE,
   SHOW_OTP_FORM_STATE,
@@ -24,12 +25,11 @@ class BuyerSlots extends StatefulWidget {
   _BuyerSlotsState createState() => _BuyerSlotsState();
 }
 
-
 //TODO: beautify screen a bit more
 //TODO: add loading widget when uploading data
 //TODO: add separate screen for seller and buyer sign up and then change userPrivileages() in authservice class
 class _BuyerSlotsState extends State<BuyerSlots> {
-   Color primary = Color.fromRGBO(245, 245, 220, 20);
+  Color primary = Color.fromRGBO(245, 245, 220, 20);
   Color secondary = Color.fromRGBO(255, 218, 185, 20);
   Color logo = Color.fromRGBO(128, 117, 90, 60);
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -48,11 +48,10 @@ class _BuyerSlotsState extends State<BuyerSlots> {
   final pass = TextEditingController();
   late String phone;
   bool showLoading = false;
-      
+
   //final List<File?> _productPic = [];
 
   DateTime selectedDate = DateTime.now();
-
 
   @override
   Widget build(BuildContext ctx) {
@@ -71,8 +70,13 @@ class _BuyerSlotsState extends State<BuyerSlots> {
             key: _formKey,
             child: ListView(
               children: [
-                Text("Hello there, Sign Up to buy amazing products!",style: TextStyle(fontSize: 28,fontWeight: FontWeight.bold),),
-                Text("Tell us more about you!",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold)),
+                Text(
+                  "Hello there, Sign Up to buy amazing products!",
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                ),
+                Text("Tell us more about you!",
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 //display name
                 Padding(
                   padding: const EdgeInsets.all(10.0),
@@ -98,6 +102,36 @@ class _BuyerSlotsState extends State<BuyerSlots> {
                     ),
                   ),
                 ),
+
+                //password field
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Container(
+                    padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: Colors.black)),
+                    child: TextFormField(
+                      keyboardType: TextInputType.visiblePassword,
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        border: InputBorder.none,
+                        prefixIcon: Icon(Icons.person),
+                      ),
+                      controller: pass,
+                      validator: (value) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            value.length < 8) {
+                          return 'Please enter a password';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                ),
+
+                //email id field
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Container(
@@ -108,39 +142,16 @@ class _BuyerSlotsState extends State<BuyerSlots> {
                     child: TextFormField(
                       keyboardType: TextInputType.name,
                       decoration: InputDecoration(
-                        labelText: 'Password',
-                        border: InputBorder.none,
-                        prefixIcon: Icon(Icons.person),
-                      ),
-                      controller: pass,
-                      validator: (value) {
-                        if (value == null || value.isEmpty || value.length < 8 ) {
-                          return 'Please enter a password';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                ),
-                 Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Container(
-                    padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: Colors.black)),
-                    child: 
-      
-                    TextFormField(
-                      keyboardType: TextInputType.name,
-                      decoration: InputDecoration(
                         labelText: 'Email ID',
                         border: InputBorder.none,
                         prefixIcon: Icon(Icons.person),
                       ),
                       controller: _emailIDController,
                       validator: (value) {
-                        if (value == null || value.isEmpty || !value.contains("@") || !value.contains(".com")) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            !value.contains("@") ||
+                            !value.contains(".com")) {
                           return 'Please Enter a Valid email id';
                         }
                         return null;
@@ -148,10 +159,11 @@ class _BuyerSlotsState extends State<BuyerSlots> {
                     ),
                   ),
                 ),
+
                 //address
                 Padding(
-                  padding:
-                      EdgeInsets.only(top: 10.0, bottom: 10, left: 10, right: 10),
+                  padding: EdgeInsets.only(
+                      top: 10.0, bottom: 10, left: 10, right: 10),
                   child: Container(
                     padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
                     decoration: BoxDecoration(
@@ -174,47 +186,49 @@ class _BuyerSlotsState extends State<BuyerSlots> {
                     ),
                   ),
                 ),
-    
+
                 //contact number
                 //TODO: add country code
                 Padding(
-                  padding:
-                      EdgeInsets.only(top: 10.0, right: 10, left: 10, bottom: 10),
+                  padding: EdgeInsets.only(
+                      top: 10.0, right: 10, left: 10, bottom: 10),
                   child: Container(
                     padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         border: Border.all(color: Colors.black)),
-                    child:     IntlPhoneField(
-                  decoration: InputDecoration(
-                    labelText: 'Phone Number',
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(),
-                    ),
-                  ),
-                  onChanged: (phoneNumber) {
-                      setState(() {
-                        phone = phoneNumber.completeNumber;
-                      });
-                  onCountryChanged: (phoneNumber) {
-                    print('Country code changed to: ' + phoneNumber.countryCode.toString());
-                  };
-                  }),
+                    child: IntlPhoneField(
+                        decoration: InputDecoration(
+                          labelText: 'Phone Number',
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(),
+                          ),
+                        ),
+                        onChanged: (phoneNumber) {
+                          setState(() {
+                            phone = phoneNumber.completeNumber;
+                          });
+                          onCountryChanged:
+                          (phoneNumber) {
+                            print('Country code changed to: ' +
+                                phoneNumber.countryCode.toString());
+                          };
+                        }),
                   ),
                 ),
-    
+
                 //pan number
                 //TODO: Add pan number check
-               
+
                 //upload aadhar image
                 //TODO: handle error when pic is not selected
-                
+
                 //upload product image(s)
                 //TODO: handle error when pic is not selected
                 //TODO: add functionality to select multiple pictures
-                
+
                 //worldwide
-               
+
                 //create event button and cancel buttom
                 SizedBox(
                   height: 100,
@@ -242,7 +256,7 @@ class _BuyerSlotsState extends State<BuyerSlots> {
                               .then((value) => print("User Deleted"))
                               .catchError((error) =>
                                   print("Failed to delete user: $error"));
-    
+
                           //delete user from firebase auth
                           try {
                             await FirebaseAuth.instance.currentUser!.delete();
@@ -258,13 +272,13 @@ class _BuyerSlotsState extends State<BuyerSlots> {
                         style: ButtonStyle(
                             elevation: MaterialStateProperty.all(0.00)),
                       ),
-    
+
                       //clear field button
                       TextButton(
                         onPressed: _clearFields,
                         child: Text('Clear Fields'),
                       ),
-    
+
                       //next button
                       ElevatedButton(
                         style: ButtonStyle(
@@ -272,67 +286,67 @@ class _BuyerSlotsState extends State<BuyerSlots> {
                         ),
                         onPressed: () async {
                           showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                      backgroundColor: secondary,
-                                      content: Container(
-                                        height: UIConstants.fitToHeight(
-                                            100, context),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            Text(
-                                              "Enter the Verification Code",
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold),),
-                                                  OTPTextField(
-                                                  length: 6,
-                                                  width: MediaQuery.of(context).size.width,
-                                                  fieldWidth: 30,
-                                                  style: TextStyle(fontSize: 20),
-                                                  textFieldAlignment: MainAxisAlignment.spaceAround,
-                                                  fieldStyle: FieldStyle.underline,
-                                                  onCompleted: (pin) {
-                                                  //verifyPin(pin);
-                                                                                  } ,
-                                                      ),
-                                                      SizedBox(
-                                              height: 10,
-                                            ),
-                                            ElevatedButton(
-                                                onPressed: () {
-                                                  //verifyPhone();
-                                                },
-                                                child: Text("Verify"))
-
-                                            ,
-                                
-                                          ],
-                                        ),
-                                      ));
-                                      
-                                });
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                    backgroundColor: secondary,
+                                    content: Container(
+                                      height:
+                                          UIConstants.fitToHeight(100, context),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Text(
+                                            "Enter the Verification Code",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          OTPTextField(
+                                            length: 6,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            fieldWidth: 30,
+                                            style: TextStyle(fontSize: 20),
+                                            textFieldAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            fieldStyle: FieldStyle.underline,
+                                            onCompleted: (pin) {
+                                              //verifyPin(pin);
+                                            },
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          ElevatedButton(
+                                              onPressed: () {
+                                                //verifyPhone();
+                                              },
+                                              child: Text("Verify")),
+                                        ],
+                                      ),
+                                    ));
+                              });
                           // Validate returns true if the form is valid, or false otherwise.
                           if (_formKey.currentState!.validate()) {
                             // If the form is valid, display a snackbar
-    
+
                             ScaffoldMessenger.of(ctx).showSnackBar(
                                 SnackBar(content: Text('Uploading Data')));
-                            
+
                             BuyerData buyer = new BuyerData(
-                                uid: uid,
-                                displayName: _nameController.text,
-                                address: _addressController.text,
-                                countryCode: _countryCodeController.text,
-                                emailID: _emailIDController.text,
-                                password: pass.text,
-                                phoneNumber: _phoneNumberController.text,
+                              uid: uid,
+                              displayName: _nameController.text,
+                              address: _addressController.text,
+                              countryCode: _countryCodeController.text,
+                              emailID: _emailIDController.text,
+                              password: pass.text,
+                              phoneNumber: _phoneNumberController.text,
                             );
-    
+
                             await UpdateBuyer(buyers: buyer).update().then((_) {
                               ScaffoldMessenger.of(ctx).showSnackBar(
                                 SnackBar(
@@ -351,7 +365,6 @@ class _BuyerSlotsState extends State<BuyerSlots> {
                             });
                           }
                         },
-                        
                         child: Text('Next'),
                       ),
                     ],
@@ -374,19 +387,14 @@ class _BuyerSlotsState extends State<BuyerSlots> {
     pass.clear();
   }
 
-  
-      // }
-      // var url = await uploadTask.then((snapshot) {
-      //   return snapshot.ref.getDownloadURL();
-      // });
+  // }
+  // var url = await uploadTask.then((snapshot) {
+  //   return snapshot.ref.getDownloadURL();
+  // });
 
-      // Waits till the file is uploaded then stores the download url
-      //Uri location = (await uploadTask.future).getDownloadURL();
+  // Waits till the file is uploaded then stores the download url
+  //Uri location = (await uploadTask.future).getDownloadURL();
 
-      //returns the download url
-      
-   
-  }
+  //returns the download url
 
-   
-   
+}

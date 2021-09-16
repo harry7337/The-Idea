@@ -1,3 +1,4 @@
+import 'package:bizgram/services/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,14 @@ class _MainScreenState extends State<MainScreen> {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              AuthService().signOut();
+            },
+            icon: Icon(Icons.logout),
+          ),
+        ),
         body: SingleChildScrollView(
           child: Center(
             child: Text('Welcome User!'),

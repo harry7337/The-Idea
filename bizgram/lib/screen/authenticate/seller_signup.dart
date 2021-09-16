@@ -11,6 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+
 enum MobileVerificationState {
   SHOW_MOBILE_FORM_STATE,
   SHOW_OTP_FORM_STATE,
@@ -22,14 +23,13 @@ class AddSlots extends StatefulWidget {
   _AddSlotsState createState() => _AddSlotsState();
 }
 
-
 //TODO: beautify screen a bit more
 //TODO: add loading widget when uploading data
 //TODO: add separate screen for seller and buyer sign up and then change userPrivileages() in authservice class
 class _AddSlotsState extends State<AddSlots> {
   MobileVerificationState currentState =
       MobileVerificationState.SHOW_MOBILE_FORM_STATE;
-   Color primary = Color.fromRGBO(245, 245, 220, 20);
+  Color primary = Color.fromRGBO(245, 245, 220, 20);
   Color secondary = Color.fromRGBO(255, 218, 185, 20);
   Color logo = Color.fromRGBO(128, 117, 90, 60);
   late String verId;
@@ -57,7 +57,7 @@ class _AddSlotsState extends State<AddSlots> {
   late String verificationId;
   late String phone;
   bool showLoading = false;
-      Future<void> verifyPhone() async {
+  Future<void> verifyPhone() async {
     await FirebaseAuth.instance.verifyPhoneNumber(
         phoneNumber: phone,
         verificationCompleted: (PhoneAuthCredential credential) async {
@@ -96,11 +96,10 @@ class _AddSlotsState extends State<AddSlots> {
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
-  
+
   //final List<File?> _productPic = [];
 
   DateTime selectedDate = DateTime.now();
-  
 
   List<DropdownMenuItem<bool>>? get codOptions {
     return [
@@ -114,7 +113,6 @@ class _AddSlotsState extends State<AddSlots> {
       ),
     ];
   }
-  
 
   @override
   Widget build(BuildContext ctx) {
@@ -133,8 +131,13 @@ class _AddSlotsState extends State<AddSlots> {
             key: _formKey,
             child: ListView(
               children: [
-                Text("Hello there, lil entrepenaur!",style: TextStyle(fontSize: 28,fontWeight: FontWeight.bold),),
-                Text("Tell us more about you!",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold)),
+                Text(
+                  "Hello there, lil entrepreneur!",
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                ),
+                Text("Tell us more about you!",
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 //display name
                 Padding(
                   padding: const EdgeInsets.all(10.0),
@@ -160,11 +163,11 @@ class _AddSlotsState extends State<AddSlots> {
                     ),
                   ),
                 ),
-    
+
                 //address
                 Padding(
-                  padding:
-                      EdgeInsets.only(top: 10.0, bottom: 10, left: 10, right: 10),
+                  padding: EdgeInsets.only(
+                      top: 10.0, bottom: 10, left: 10, right: 10),
                   child: Container(
                     padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
                     decoration: BoxDecoration(
@@ -187,40 +190,42 @@ class _AddSlotsState extends State<AddSlots> {
                     ),
                   ),
                 ),
-    
+
                 //contact number
                 //TODO: add country code
                 Padding(
-                  padding:
-                      EdgeInsets.only(top: 10.0, right: 10, left: 10, bottom: 10),
+                  padding: EdgeInsets.only(
+                      top: 10.0, right: 10, left: 10, bottom: 10),
                   child: Container(
                     padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         border: Border.all(color: Colors.black)),
-                    child:     IntlPhoneField(
-                  decoration: InputDecoration(
-                    labelText: 'Phone Number',
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(),
-                    ),
-                  ),
-                  onChanged: (phoneNumber) {
-                      setState(() {
-                        phone = phoneNumber.completeNumber;
-                      });
-                  onCountryChanged: (phoneNumber) {
-                    print('Country code changed to: ' + phoneNumber.countryCode.toString());
-                  };
-                  }),
+                    child: IntlPhoneField(
+                        decoration: InputDecoration(
+                          labelText: 'Phone Number',
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(),
+                          ),
+                        ),
+                        onChanged: (phoneNumber) {
+                          setState(() {
+                            phone = phoneNumber.completeNumber;
+                          });
+                          onCountryChanged:
+                          (phoneNumber) {
+                            print('Country code changed to: ' +
+                                phoneNumber.countryCode.toString());
+                          };
+                        }),
                   ),
                 ),
-    
+
                 //pan number
                 //TODO: Add pan number check
                 Padding(
-                  padding:
-                      EdgeInsets.only(top: 10.0, right: 10, left: 10, bottom: 10),
+                  padding: EdgeInsets.only(
+                      top: 10.0, right: 10, left: 10, bottom: 10),
                   child: Container(
                     padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
                     decoration: BoxDecoration(
@@ -234,7 +239,9 @@ class _AddSlotsState extends State<AddSlots> {
                           labelText: 'Pan Number',
                           prefixIcon: Icon(Icons.person_add)),
                       validator: (value) {
-                        if (value == null || value.isEmpty || value.length < 10) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            value.length < 10) {
                           return 'Please Enter a Valid Pan Number';
                         }
                         return null;
@@ -242,7 +249,7 @@ class _AddSlotsState extends State<AddSlots> {
                     ),
                   ),
                 ),
-    
+
                 //upload aadhar image
                 //TODO: handle error when pic is not selected
                 Padding(
@@ -253,31 +260,31 @@ class _AddSlotsState extends State<AddSlots> {
                         borderRadius: BorderRadius.circular(5),
                         border: Border.all(color: Colors.black)),
                     child: TextFormField(
-                      keyboardType: TextInputType.phone,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        labelText: 'Upload Aadhar Image',
-                        prefixIcon: Icon(Icons.image),
-                       
-                        //hintText: _aadharPic != null ? "aadhar.jpg" : " ",
-                      ),
-                      onTap: () async {
-                        //Get the file from the image picker and store it
-                        final image =
-                            await _picker.getImage(source: ImageSource.gallery);
-                        final File file = File(image!.path);
-                        _aadharPic = file;
-                      },
-                      readOnly: true,
-                      validator: (value) {
-                        if(value == null)
-                        return "We request you to submit your adhar card";
-                        else return null;
-                      }
-                    ),
+                        keyboardType: TextInputType.phone,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          labelText: 'Upload Aadhar Image',
+                          prefixIcon: Icon(Icons.image),
+
+                          //hintText: _aadharPic != null ? "aadhar.jpg" : " ",
+                        ),
+                        onTap: () async {
+                          //Get the file from the image picker and store it
+                          final image = await _picker.getImage(
+                              source: ImageSource.gallery);
+                          final File file = File(image!.path);
+                          _aadharPic = file;
+                        },
+                        readOnly: true,
+                        validator: (value) {
+                          if (value == null)
+                            return "We request you to submit your adhar card";
+                          else
+                            return null;
+                        }),
                   ),
                 ),
-    
+
                 //upload product image(s)
                 //TODO: handle error when pic is not selected
                 //TODO: add functionality to select multiple pictures
@@ -289,35 +296,34 @@ class _AddSlotsState extends State<AddSlots> {
                         borderRadius: BorderRadius.circular(5),
                         border: Border.all(color: Colors.black)),
                     child: TextFormField(
-                      keyboardType: TextInputType.phone,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        labelText: 'Upload Product Pictures',
-                        prefixIcon: Icon(Icons.image),
-                        //.hintText: _productPic != null ? "productPic.jpg" : " ",
-                      ),
-                      onTap: () async {
-                        //Get the file from the image picker and store it
-                        final image =
-                            await _picker.getImage(source: ImageSource.gallery);
-                        final File file = File(image!.path);
-                        _productPic = file;
-                        
-                      },
-                      readOnly: true,
-                      validator: (value) {
-                        if(value == null)
-                        return "We request you to submit a product picture";
-                        else return null;
-                      }
-                    ),
+                        keyboardType: TextInputType.phone,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          labelText: 'Upload Product Pictures',
+                          prefixIcon: Icon(Icons.image),
+                          //.hintText: _productPic != null ? "productPic.jpg" : " ",
+                        ),
+                        onTap: () async {
+                          //Get the file from the image picker and store it
+                          final image = await _picker.getImage(
+                              source: ImageSource.gallery);
+                          final File file = File(image!.path);
+                          _productPic = file;
+                        },
+                        readOnly: true,
+                        validator: (value) {
+                          if (value == null)
+                            return "We request you to submit a product picture";
+                          else
+                            return null;
+                        }),
                   ),
                 ),
-    
+
                 //cod
                 Padding(
-                  padding:
-                      EdgeInsets.only(top: 10.0, right: 10, left: 10, bottom: 10),
+                  padding: EdgeInsets.only(
+                      top: 10.0, right: 10, left: 10, bottom: 10),
                   child: Container(
                     padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
                     decoration: BoxDecoration(
@@ -342,11 +348,11 @@ class _AddSlotsState extends State<AddSlots> {
                     ),
                   ),
                 ),
-    
+
                 //worldwide
                 Padding(
-                  padding:
-                      EdgeInsets.only(top: 10.0, right: 10, left: 10, bottom: 10),
+                  padding: EdgeInsets.only(
+                      top: 10.0, right: 10, left: 10, bottom: 10),
                   child: Container(
                     padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
                     decoration: BoxDecoration(
@@ -398,7 +404,7 @@ class _AddSlotsState extends State<AddSlots> {
                               .then((value) => print("User Deleted"))
                               .catchError((error) =>
                                   print("Failed to delete user: $error"));
-    
+
                           //delete user from firebase auth
                           try {
                             await FirebaseAuth.instance.currentUser!.delete();
@@ -414,13 +420,13 @@ class _AddSlotsState extends State<AddSlots> {
                         style: ButtonStyle(
                             elevation: MaterialStateProperty.all(0.00)),
                       ),
-    
+
                       //clear field button
                       TextButton(
                         onPressed: _clearFields,
                         child: Text('Clear Fields'),
                       ),
-    
+
                       //next button
                       ElevatedButton(
                         style: ButtonStyle(
@@ -428,54 +434,54 @@ class _AddSlotsState extends State<AddSlots> {
                         ),
                         onPressed: () async {
                           showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                      backgroundColor: secondary,
-                                      content: Container(
-                                        height: UIConstants.fitToHeight(
-                                            100, context),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            Text(
-                                              "Enter the Verification Code",
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold),),
-                                                  OTPTextField(
-                                                  length: 6,
-                                                  width: MediaQuery.of(context).size.width,
-                                                  fieldWidth: 30,
-                                                  style: TextStyle(fontSize: 20),
-                                                  textFieldAlignment: MainAxisAlignment.spaceAround,
-                                                  fieldStyle: FieldStyle.underline,
-                                                  onCompleted: (pin) {
-                                                  verifyPin(pin);
-                                                                                  } ,
-                                                      ),
-                                                      SizedBox(
-                                              height: 10,
-                                            ),
-                                            ElevatedButton(
-                                                onPressed: () {
-                                                  verifyPhone();
-                                                },
-                                                child: Text("Verify"))
-
-                                            ,
-                                
-                                          ],
-                                        ),
-                                      ));
-                                      
-                                });
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                    backgroundColor: secondary,
+                                    content: Container(
+                                      height:
+                                          UIConstants.fitToHeight(100, context),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Text(
+                                            "Enter the Verification Code",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          OTPTextField(
+                                            length: 6,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            fieldWidth: 30,
+                                            style: TextStyle(fontSize: 20),
+                                            textFieldAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            fieldStyle: FieldStyle.underline,
+                                            onCompleted: (pin) {
+                                              verifyPin(pin);
+                                            },
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          ElevatedButton(
+                                              onPressed: () {
+                                                verifyPhone();
+                                              },
+                                              child: Text("Verify")),
+                                        ],
+                                      ),
+                                    ));
+                              });
                           // Validate returns true if the form is valid, or false otherwise.
                           if (_formKey.currentState!.validate()) {
                             // If the form is valid, display a snackbar
-    
+
                             ScaffoldMessenger.of(ctx).showSnackBar(
                                 SnackBar(content: Text('Uploading Data')));
                             await uploadPic();
@@ -491,7 +497,7 @@ class _AddSlotsState extends State<AddSlots> {
                                 productPic: [_productPic],
                                 COD: _cod,
                                 worldwide: _worldwide);
-    
+
                             await UpdateDoc(seller: seller).update().then((_) {
                               ScaffoldMessenger.of(ctx).showSnackBar(
                                 SnackBar(
@@ -510,7 +516,6 @@ class _AddSlotsState extends State<AddSlots> {
                             });
                           }
                         },
-                        
                         child: Text('Next'),
                       ),
                     ],
@@ -583,7 +588,6 @@ class _AddSlotsState extends State<AddSlots> {
         print(uploadProductTask.snapshot);
 
         print(e.toString());
-        
       }
       //   }
       // }
@@ -595,9 +599,7 @@ class _AddSlotsState extends State<AddSlots> {
       //Uri location = (await uploadTask.future).getDownloadURL();
 
       //returns the download url
-      
-   
+
+    }
   }
 }
-   }
-   

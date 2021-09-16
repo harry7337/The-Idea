@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/media/harry16614/a8f585da-21f4-4205-ac71-85069ee75f47/harry16614/projects/The-Idea/bizgram/build/flutter_plugin_android_lifecycle/intermediates/res/merged/release/drawable/notification_tile_bg.xml",
+        "source": "/home/harry16614/.gradle/caches/transforms-2/files-2.1/3c8fd1bfddb99a7a7e21faa1397acdb4/core-1.1.0/res/drawable/notification_tile_bg.xml"
+    },
+    {
+        "merged": "/media/harry16614/a8f585da-21f4-4205-ac71-85069ee75f47/harry16614/projects/The-Idea/bizgram/build/flutter_plugin_android_lifecycle/intermediates/res/merged/release/drawable/notification_bg_low.xml",
+        "source": "/home/harry16614/.gradle/caches/transforms-2/files-2.1/3c8fd1bfddb99a7a7e21faa1397acdb4/core-1.1.0/res/drawable/notification_bg_low.xml"
+    },
+    {
+        "merged": "/media/harry16614/a8f585da-21f4-4205-ac71-85069ee75f47/harry16614/projects/The-Idea/bizgram/build/flutter_plugin_android_lifecycle/intermediates/res/merged/release/drawable/notification_bg.xml",
+        "source": "/home/harry16614/.gradle/caches/transforms-2/files-2.1/3c8fd1bfddb99a7a7e21faa1397acdb4/core-1.1.0/res/drawable/notification_bg.xml"
+    },
+    {
+        "merged": "/media/harry16614/a8f585da-21f4-4205-ac71-85069ee75f47/harry16614/projects/The-Idea/bizgram/build/flutter_plugin_android_lifecycle/intermediates/res/merged/release/drawable/notification_icon_background.xml",
+        "source": "/home/harry16614/.gradle/caches/transforms-2/files-2.1/3c8fd1bfddb99a7a7e21faa1397acdb4/core-1.1.0/res/drawable/notification_icon_background.xml"
+    }
+]

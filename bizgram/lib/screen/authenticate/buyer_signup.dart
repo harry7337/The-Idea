@@ -1,18 +1,15 @@
-import 'dart:io';
 import 'package:bizgram/constants/UIconstants.dart';
-import 'package:bizgram/screen/home/getting_started.dart';
+import 'package:bizgram/screen/authenticate/phone_signin.dart';
 import 'package:bizgram/services/AddBuyer.dart';
+import 'package:bizgram/services/auth.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:bizgram/models/seller.dart';
-import 'package:bizgram/services/update_doc.dart';
-import 'package:otp_text_field/otp_field.dart';
-import 'package:otp_text_field/style.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:bizgram/models/buyer.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+
+import '../wrapper.dart';
 
 enum MobileVerificationState {
   SHOW_MOBILE_FORM_STATE,
@@ -45,7 +42,7 @@ class _BuyerSlotsState extends State<BuyerSlots> {
   final _emailIDController = TextEditingController();
   final _phoneNumberController = TextEditingController();
   final otpController = TextEditingController();
-  final pass = TextEditingController();
+  final _passwordController = TextEditingController();
   late String phone;
   bool showLoading = false;
 
@@ -103,34 +100,6 @@ class _BuyerSlotsState extends State<BuyerSlots> {
                   ),
                 ),
 
-                //password field
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Container(
-                    padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: Colors.black)),
-                    child: TextFormField(
-                      keyboardType: TextInputType.visiblePassword,
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                        border: InputBorder.none,
-                        prefixIcon: Icon(Icons.person),
-                      ),
-                      controller: pass,
-                      validator: (value) {
-                        if (value == null ||
-                            value.isEmpty ||
-                            value.length < 8) {
-                          return 'Please enter a password';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                ),
-
                 //email id field
                 Padding(
                   padding: const EdgeInsets.all(10.0),
@@ -160,6 +129,34 @@ class _BuyerSlotsState extends State<BuyerSlots> {
                   ),
                 ),
 
+                //password field
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Container(
+                    padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: Colors.black)),
+                    child: TextFormField(
+                      keyboardType: TextInputType.visiblePassword,
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        border: InputBorder.none,
+                        prefixIcon: Icon(Icons.person),
+                      ),
+                      controller: _passwordController,
+                      validator: (value) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            value.length < 8) {
+                          return 'Please enter a password';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                ),
+
                 //address
                 Padding(
                   padding: EdgeInsets.only(
@@ -170,8 +167,7 @@ class _BuyerSlotsState extends State<BuyerSlots> {
                         borderRadius: BorderRadius.circular(5),
                         border: Border.all(color: Colors.black)),
                     child: TextFormField(
-                      maxLength: 3,
-                      keyboardType: TextInputType.multiline,
+                      keyboardType: TextInputType.streetAddress,
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           labelText: 'Address',
@@ -188,7 +184,6 @@ class _BuyerSlotsState extends State<BuyerSlots> {
                 ),
 
                 //contact number
-                //TODO: add country code
                 Padding(
                   padding: EdgeInsets.only(
                       top: 10.0, right: 10, left: 10, bottom: 10),
@@ -206,29 +201,17 @@ class _BuyerSlotsState extends State<BuyerSlots> {
                         ),
                         onChanged: (phoneNumber) {
                           setState(() {
-                            phone = phoneNumber.completeNumber;
+                            phone = phoneNumber.countryCode! + " ";
+                            phone += phoneNumber.number!;
                           });
-                          onCountryChanged:
-                          (phoneNumber) {
-                            print('Country code changed to: ' +
-                                phoneNumber.countryCode.toString());
-                          };
+                          // onCountryChanged:
+                          // (phoneNumber) {
+                          //   print('Country code changed to: ' +
+                          //       phoneNumber.countryCode.toString());
+                          // };
                         }),
                   ),
                 ),
-
-                //pan number
-                //TODO: Add pan number check
-
-                //upload aadhar image
-                //TODO: handle error when pic is not selected
-
-                //upload product image(s)
-                //TODO: handle error when pic is not selected
-                //TODO: add functionality to select multiple pictures
-
-                //worldwide
-
                 //create event button and cancel buttom
                 SizedBox(
                   height: 100,
@@ -238,34 +221,34 @@ class _BuyerSlotsState extends State<BuyerSlots> {
                       //back button
                       ElevatedButton(
                         onPressed: () async {
-                          CollectionReference users =
-                              FirebaseFirestore.instance.collection('users');
-                          CollectionReference buyers =
-                              FirebaseFirestore.instance.collection('users');
-                          //delete in users
-                          users
-                              .doc(uid)
-                              .delete()
-                              .then((value) => print("User Deleted"))
-                              .catchError((error) =>
-                                  print("Failed to delete user: $error"));
-                          //delete in sellers
-                          buyers
-                              .doc(uid)
-                              .delete()
-                              .then((value) => print("User Deleted"))
-                              .catchError((error) =>
-                                  print("Failed to delete user: $error"));
+                          // CollectionReference users =
+                          //     FirebaseFirestore.instance.collection('users');
+                          // CollectionReference buyers =
+                          //     FirebaseFirestore.instance.collection('users');
+                          // //delete in users
+                          // users
+                          //     .doc(uid)
+                          //     .delete()
+                          //     .then((value) => print("User Deleted"))
+                          //     .catchError((error) =>
+                          //         print("Failed to delete user: $error"));
+                          // //delete in sellers
+                          // buyers
+                          //     .doc(uid)
+                          //     .delete()
+                          //     .then((value) => print("User Deleted"))
+                          //     .catchError((error) =>
+                          //         print("Failed to delete user: $error"));
 
-                          //delete user from firebase auth
-                          try {
-                            await FirebaseAuth.instance.currentUser!.delete();
-                          } on FirebaseAuthException catch (e) {
-                            if (e.code == 'requires-recent-login') {
-                              print(
-                                  'The user must reauthenticate before this operation can be executed.');
-                            }
-                          }
+                          // //delete user from firebase auth
+                          // try {
+                          //   await FirebaseAuth.instance.currentUser!.delete();
+                          // } on FirebaseAuthException catch (e) {
+                          //   if (e.code == 'requires-recent-login') {
+                          //     print(
+                          //         'The user must reauthenticate before this operation can be executed.');
+                          //   }
+                          // }
                           Navigator.pop(context);
                         },
                         child: Text('Back'),
@@ -289,81 +272,117 @@ class _BuyerSlotsState extends State<BuyerSlots> {
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                    backgroundColor: secondary,
-                                    content: Container(
-                                      height:
-                                          UIConstants.fitToHeight(100, context),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          Text(
-                                            "Enter the Verification Code",
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          OTPTextField(
-                                            length: 6,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            fieldWidth: 30,
-                                            style: TextStyle(fontSize: 20),
-                                            textFieldAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            fieldStyle: FieldStyle.underline,
-                                            onCompleted: (pin) {
-                                              //verifyPin(pin);
-                                            },
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          ElevatedButton(
-                                              onPressed: () {
-                                                //verifyPhone();
-                                              },
-                                              child: Text("Verify")),
-                                        ],
-                                      ),
-                                    ));
+                                  backgroundColor: secondary,
+                                  content: Container(
+                                    height:
+                                        UIConstants.fitToHeight(100, context),
+                                    child: PhoneSignIn(
+                                        phoneNumber: phone,
+                                        displayName: _nameController.text,
+                                        email: _emailIDController.text,
+                                        password: _passwordController.text),
+                                  ),
+                                );
                               });
-                          // Validate returns true if the form is valid, or false otherwise.
-                          if (_formKey.currentState!.validate()) {
-                            // If the form is valid, display a snackbar
 
-                            ScaffoldMessenger.of(ctx).showSnackBar(
-                                SnackBar(content: Text('Uploading Data')));
+                          /// This method is used to login the user
+                          /// `AuthCredential`(`_phoneAuthCredential`) is needed for the signIn method
+                          /// After the signIn method from `AuthResult` we can get `FirebaserUser`(`_firebaseUser`)
+                          try {
+                            //FirebaseAuth.instance.signInWithPhoneNumber(_phoneController.text);
+                            //var user = await _auth.signInWithCredential(this._phoneAuthCredential);
+                            var user = await AuthService()
+                                .registerWithEmailAndPassword(
+                                    _emailIDController.text,
+                                    _passwordController.text);
 
-                            BuyerData buyer = new BuyerData(
-                              uid: uid,
-                              displayName: _nameController.text,
-                              address: _addressController.text,
-                              countryCode: _countryCodeController.text,
-                              emailID: _emailIDController.text,
-                              password: pass.text,
-                              phoneNumber: _phoneNumberController.text,
-                            );
+                            if (user == null) {
+                              setState(() {
+                                //loading = false;
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("Something went wrong"),
+                                  ),
+                                );
+                                print('Something went wrong');
+                              });
+                            } else {
+                              setState(() {
+                                //loading = false;
+                                print("Signed In");
+                              });
 
-                            await UpdateBuyer(buyers: buyer).update().then((_) {
-                              ScaffoldMessenger.of(ctx).showSnackBar(
-                                SnackBar(
-                                  content: Text('Updated Doc'),
-                                ),
-                              );
-                              Navigator.pop(context);
-                              _clearFields();
-                            }, onError: (_) {
-                              ScaffoldMessenger.of(ctx).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                      'Something went wrong, please try again.'),
-                                ),
-                              );
-                            });
+                              await FirebaseAuth.instance.currentUser!
+                                  .updateDisplayName(_nameController.text);
+                              //await FirebaseAuth.instance.currentUser!.updateEmail(widget.email);
+                              await FirebaseAuth.instance.currentUser!
+                                  .linkWithPhoneNumber(phone);
+                              // Navigator.pushReplacement(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //     builder: (_) => Wrapper(
+                              //       showSignUp: false,
+                              //     ),
+                              //   ),
+                              // );
+                            }
+                          } catch (e) {
+                            _handleError(e);
                           }
+                          FirebaseAuth.instance
+                              .authStateChanges()
+                              .listen((user) async {
+                            // Validate returns true if the form is valid, or false otherwise.
+                            if (_formKey.currentState!.validate() &&
+                                user != null) {
+                              // If the form is valid, display a snackbar
+
+                              ScaffoldMessenger.of(ctx).showSnackBar(
+                                  SnackBar(content: Text('Uploading Data')));
+
+                              BuyerData buyer = new BuyerData(
+                                uid: uid,
+                                displayName: _nameController.text,
+                                address: _addressController.text,
+                                countryCode: _countryCodeController.text,
+                                emailID: _emailIDController.text,
+                                password: _passwordController.text,
+                                phoneNumber: _phoneNumberController.text,
+                              );
+
+                              await UpdateBuyer(buyers: buyer).update().then(
+                                  (_) {
+                                ScaffoldMessenger.of(ctx).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Updated Doc'),
+                                  ),
+                                );
+
+                                AuthService().buyerPrivileges(user);
+
+                                //go back to wrapper
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => Wrapper(
+                                      showSignUp: false,
+                                    ),
+                                  ),
+                                );
+                                // Navigator.pop(context);
+
+                                //clear field
+                                _clearFields();
+                              }, onError: (_) {
+                                ScaffoldMessenger.of(ctx).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                        'Something went wrong, please try again.'),
+                                  ),
+                                );
+                              });
+                            }
+                          });
                         },
                         child: Text('Next'),
                       ),
@@ -384,9 +403,21 @@ class _BuyerSlotsState extends State<BuyerSlots> {
     _countryCodeController.clear();
     _emailIDController.clear();
     _phoneNumberController.clear();
-    pass.clear();
+    _passwordController.clear();
   }
 
+  void _handleError(e) {
+    print(e.message);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("${e.message}"),
+      ),
+    );
+    // setState(() {
+    //   loading = false;
+    //   _reset();
+    // });
+  }
   // }
   // var url = await uploadTask.then((snapshot) {
   //   return snapshot.ref.getDownloadURL();

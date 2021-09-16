@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/media/harry16614/a8f585da-21f4-4205-ac71-85069ee75f47/harry16614/projects/The-Idea/bizgram/build/path_provider/intermediates/res/merged/release/layout-v21/notification_action.xml",
+        "source": "/home/harry16614/.gradle/caches/transforms-2/files-2.1/3c8fd1bfddb99a7a7e21faa1397acdb4/core-1.1.0/res/layout-v21/notification_action.xml"
+    },
+    {
+        "merged": "/media/harry16614/a8f585da-21f4-4205-ac71-85069ee75f47/harry16614/projects/The-Idea/bizgram/build/path_provider/intermediates/res/merged/release/layout-v21/notification_template_custom_big.xml",
+        "source": "/home/harry16614/.gradle/caches/transforms-2/files-2.1/3c8fd1bfddb99a7a7e21faa1397acdb4/core-1.1.0/res/layout-v21/notification_template_custom_big.xml"
+    },
+    {
+        "merged": "/media/harry16614/a8f585da-21f4-4205-ac71-85069ee75f47/harry16614/projects/The-Idea/bizgram/build/path_provider/intermediates/res/merged/release/layout-v21/notification_template_icon_group.xml",
+        "source": "/home/harry16614/.gradle/caches/transforms-2/files-2.1/3c8fd1bfddb99a7a7e21faa1397acdb4/core-1.1.0/res/layout-v21/notification_template_icon_group.xml"
+    },
+    {
+        "merged": "/media/harry16614/a8f585da-21f4-4205-ac71-85069ee75f47/harry16614/projects/The-Idea/bizgram/build/path_provider/intermediates/res/merged/release/layout-v21/notification_action_tombstone.xml",
+        "source": "/home/harry16614/.gradle/caches/transforms-2/files-2.1/3c8fd1bfddb99a7a7e21faa1397acdb4/core-1.1.0/res/layout-v21/notification_action_tombstone.xml"
+    }
+]

@@ -46,7 +46,7 @@ class _BuyerGoogleSlotsState extends State<BuyerGoogleSlots> {
   final _phoneNumberController = TextEditingController();
   final otpController = TextEditingController();
   final pass = TextEditingController();
-  late String phone;
+   String phone="";
   bool showLoading = false;
       
   //final List<File?> _productPic = [];
@@ -168,13 +168,16 @@ class _BuyerGoogleSlotsState extends State<BuyerGoogleSlots> {
                     ),
                   ),
                   onChanged: (phoneNumber) {
-                      setState(() {
-                        phone = phoneNumber.completeNumber;
-                      });
-                  onCountryChanged: (phoneNumber) {
-                    print('Country code changed to: ' + phoneNumber.countryCode.toString());
-                  };
-                  }),
+                          setState(() {
+                            phone = phoneNumber.countryCode! + " ";
+                            phone += phoneNumber.number!;
+                          });
+                          // onCountryChanged:
+                          // (phoneNumber) {
+                          //   print('Country code changed to: ' +
+                          //       phoneNumber.countryCode.toString());
+                          // };
+                        }),
                   ),
                 ),
     
@@ -199,34 +202,34 @@ class _BuyerGoogleSlotsState extends State<BuyerGoogleSlots> {
                       //back button
                       ElevatedButton(
                         onPressed: () async {
-                          CollectionReference users =
-                              FirebaseFirestore.instance.collection('users');
-                          CollectionReference buyers =
-                              FirebaseFirestore.instance.collection('users');
-                          //delete in users
-                          users
-                              .doc(uid)
-                              .delete()
-                              .then((value) => print("User Deleted"))
-                              .catchError((error) =>
-                                  print("Failed to delete user: $error"));
-                          //delete in sellers
-                          buyers
-                              .doc(uid)
-                              .delete()
-                              .then((value) => print("User Deleted"))
-                              .catchError((error) =>
-                                  print("Failed to delete user: $error"));
-    
-                          //delete user from firebase auth
-                          try {
-                            await FirebaseAuth.instance.currentUser!.delete();
-                          } on FirebaseAuthException catch (e) {
-                            if (e.code == 'requires-recent-login') {
-                              print(
-                                  'The user must reauthenticate before this operation can be executed.');
-                            }
-                          }
+                          // CollectionReference users =
+                          //     FirebaseFirestore.instance.collection('users');
+                          // CollectionReference sellers =
+                          //     FirebaseFirestore.instance.collection('users');
+                          // //delete in users
+                          // users
+                          //     .doc(uid)
+                          //     .delete()
+                          //     .then((value) => print("User Deleted"))
+                          //     .catchError((error) =>
+                          //         print("Failed to delete user: $error"));
+                          // //delete in sellers
+                          // sellers
+                          //     .doc(uid)
+                          //     .delete()
+                          //     .then((value) => print("User Deleted"))
+                          //     .catchError((error) =>
+                          //         print("Failed to delete user: $error"));
+
+                          // //delete user from firebase auth
+                          // try {
+                          //   await FirebaseAuth.instance.currentUser!.delete();
+                          // } on FirebaseAuthException catch (e) {
+                          //   if (e.code == 'requires-recent-login') {
+                          //     print(
+                          //         'The user must reauthenticate before this operation can be executed.');
+                          //   }
+                          // }
                           Navigator.pop(context);
                         },
                         child: Text('Back'),
@@ -240,93 +243,128 @@ class _BuyerGoogleSlotsState extends State<BuyerGoogleSlots> {
                         child: Text('Clear Fields'),
                       ),
     
-                      //next button
+                     //next button
                       ElevatedButton(
                         style: ButtonStyle(
                           elevation: MaterialStateProperty.all(0.00),
                         ),
                         onPressed: () async {
                           showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                      backgroundColor: secondary,
-                                      content: Container(
-                                        height: UIConstants.fitToHeight(
-                                            100, context),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            Text(
-                                              "Enter the Verification Code",
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold),),
-                                                  OTPTextField(
-                                                  length: 6,
-                                                  width: MediaQuery.of(context).size.width,
-                                                  fieldWidth: 30,
-                                                  style: TextStyle(fontSize: 20),
-                                                  textFieldAlignment: MainAxisAlignment.spaceAround,
-                                                  fieldStyle: FieldStyle.underline,
-                                                  onCompleted: (pin) {
-                                                  //verifyPin(pin);
-                                                                                  } ,
-                                                      ),
-                                                      SizedBox(
-                                              height: 10,
-                                            ),
-                                            ElevatedButton(
-                                                onPressed: () {
-                                                  //verifyPhone();
-                                                },
-                                                child: Text("Verify"))
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  backgroundColor: secondary,
+                                  content: Container(
+                                    height:
+                                        UIConstants.fitToHeight(100, context),
+                                    child: PhoneSignIn(
+                                        phoneNumber: phone,
+                                        displayName: _nameController.text,
+                                        email: _emailIDController.text,
+                                        password: _passwordController.text),
+                                  ),
+                                );
+                              });
 
-                                            ,
-                                
-                                          ],
-                                        ),
-                                      ));
-                                      
-                                });
-                          // Validate returns true if the form is valid, or false otherwise.
-                          if (_formKey.currentState!.validate()) {
-                            // If the form is valid, display a snackbar
-    
-                            ScaffoldMessenger.of(ctx).showSnackBar(
-                                SnackBar(content: Text('Uploading Data')));
-                            
-                            BuyerData buyer = new BuyerData(
+                          /// This method is used to login the user
+                          /// `AuthCredential`(`_phoneAuthCredential`) is needed for the signIn method
+                          /// After the signIn method from `AuthResult` we can get `FirebaserUser`(`_firebaseUser`)
+                          try {
+                            //FirebaseAuth.instance.signInWithPhoneNumber(_phoneController.text);
+                            //var user = await _auth.signInWithCredential(this._phoneAuthCredential);
+                            var user = await AuthService()
+                                .registerWithEmailAndPassword(
+                                    _emailIDController.text,
+                                    _passwordController.text);
+
+                            if (user == null) {
+                              setState(() {
+                                //loading = false;
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("Something went wrong"),
+                                  ),
+                                );
+                                print('Something went wrong');
+                              });
+                            } else {
+                              setState(() {
+                                //loading = false;
+                                print("Signed In");
+                              });
+
+                              await FirebaseAuth.instance.currentUser!
+                                  .updateDisplayName(_nameController.text);
+                              //await FirebaseAuth.instance.currentUser!.updateEmail(widget.email);
+                              await FirebaseAuth.instance.currentUser!
+                                  .linkWithPhoneNumber(phone);
+                              // Navigator.pushReplacement(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //     builder: (_) => Wrapper(
+                              //       showSignUp: false,
+                              //     ),
+                              //   ),
+                              // );
+                            }
+                          } catch (e) {
+                            _handleError(e);
+                          }
+                          FirebaseAuth.instance
+                              .authStateChanges()
+                              .listen((user) async {
+                            // Validate returns true if the form is valid, or false otherwise.
+                            if (_formKey.currentState!.validate() &&
+                                user != null) {
+                              // If the form is valid, display a snackbar
+
+                              ScaffoldMessenger.of(ctx).showSnackBar(
+                                  SnackBar(content: Text('Uploading Data')));
+
+                              BuyerData buyer = new BuyerData(
                                 uid: uid,
                                 displayName: _nameController.text,
                                 address: _addressController.text,
                                 countryCode: _countryCodeController.text,
-                                emailID: emailID,
-                                password: pass.text,
+                                emailID: _emailIDController.text,
+                                password: _passwordController.text,
                                 phoneNumber: _phoneNumberController.text,
-                            );
-    
-                            await UpdateBuyer(buyers: buyer).update().then((_) {
-                              ScaffoldMessenger.of(ctx).showSnackBar(
-                                SnackBar(
-                                  content: Text('Updated Doc'),
-                                ),
                               );
-                              Navigator.pop(context);
-                              _clearFields();
-                            }, onError: (_) {
-                              ScaffoldMessenger.of(ctx).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                      'Something went wrong, please try again.'),
-                                ),
-                              );
-                            });
-                          }
+
+                              await UpdateBuyer(buyers: buyer).update().then(
+                                  (_) {
+                                ScaffoldMessenger.of(ctx).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Updated Doc'),
+                                  ),
+                                );
+
+                                AuthService().buyerPrivileges(user);
+
+                                //go back to wrapper
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => Wrapper(
+                                      showSignUp: false,
+                                    ),
+                                  ),
+                                );
+                                // Navigator.pop(context);
+
+                                //clear field
+                                _clearFields();
+                              }, onError: (_) {
+                                ScaffoldMessenger.of(ctx).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                        'Something went wrong, please try again.'),
+                                  ),
+                                );
+                              });
+                            }
+                          });
                         },
-                        
                         child: Text('Next'),
                       ),
                     ],

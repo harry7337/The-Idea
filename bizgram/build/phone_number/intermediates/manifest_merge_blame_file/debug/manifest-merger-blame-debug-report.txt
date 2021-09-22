@@ -3,6 +3,6 @@
 3    package="com.julienvignali.phone_number" >
 4
 5    <uses-sdk android:minSdkVersion="16" />
-5-->C:\Users\91819\Documents\flutter\flutter\.pub-cache\hosted\pub.dartlang.org\phone_number-0.12.0\android\src\main\AndroidManifest.xml
+5-->/home/harry16614/.pub-cache/hosted/pub.dartlang.org/phone_number-0.12.0/android/src/main/AndroidManifest.xml
 6
 7</manifest>

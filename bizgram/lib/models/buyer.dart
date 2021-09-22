@@ -3,15 +3,15 @@ import 'package:http/http.dart' as http;
 import 'package:phone_number/phone_number.dart';
 
 class BuyerData {
-  final String? uid;
-  final String displayName;
-  final String address;
-  final String? emailID;
-  final String countryCode;
-  final String? phoneNumber;
-  final String password;
+  late String? uid;
+  late String displayName;
+  late String address;
+  late String? emailID;
+   late String countryCode;
+  late String? phoneNumber;
+  late String password;
 
-  const BuyerData(
+   BuyerData(
       {required this.uid,
       required this.displayName,
       required this.address,
@@ -20,8 +20,34 @@ class BuyerData {
       required this.phoneNumber,
       required this.password});
 
+      
+   Map toMap(BuyerData buyer) {
+    var data = Map<String, dynamic>();
+    data['ownerUid'] = buyer.uid;
+    data['display name'] = buyer.displayName;
+    data['address'] = buyer.address;
+    data['emailID'] = buyer.emailID;
+    data['country code'] = buyer.countryCode;
+    data['phone number'] = buyer.phoneNumber;
+    data['password'] = buyer.password;
+    return data;
+  }
+
+  BuyerData.fromMap(Map<String, dynamic> mapData) {
+    this.uid = mapData['ownerUid'];
+    this.displayName = mapData['display name'];
+    this.address = mapData['address'];
+    this.emailID = mapData['emailID'];
+    this.phoneNumber = mapData['phone number'];
+    this.password = mapData['password'];
+    this.countryCode = mapData['country code'];
+  }
+
+}
+
+
   doc(String? uid) {}
 
 
-  }
+  
 

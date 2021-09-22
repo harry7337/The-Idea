@@ -21,7 +21,7 @@ class Wrapper extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.active) {
           if (snapshot.hasData) {
             print("Not Null");
-            _auth.userPrivileges(snapshot.data as User);
+            //_auth.sellerPrivileges(snapshot.data as User);
 
             return MainScreen();
           } else {

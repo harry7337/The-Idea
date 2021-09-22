@@ -11,7 +11,7 @@ class AuthService {
   }
 
   //update roles firestore
-  void userPrivileges(User user) async {
+  void sellerPrivileges(User user) async {
     final roles = firestore.collection("users").doc(user.uid);
     if (!(await roles.get()).exists) {
       roles.set({
